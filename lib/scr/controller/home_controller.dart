@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../../utility/utilitie.dart';
 import '../home_scr/home_scr_1.dart';
 import '../home_scr/home_scr_2.dart';
 import '../home_scr/home_scr_3.dart';
@@ -24,6 +25,8 @@ setindexINProfile(int i){
   void onInit() {
     super.onInit();
     screen=screens[index];
+   // getdestance();
+    getPositionAsStream();
   }
 
     myScr(int index){
