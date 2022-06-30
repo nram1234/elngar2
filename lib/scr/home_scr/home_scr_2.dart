@@ -1,5 +1,11 @@
-import 'package:flutter/material.dart';
 
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controller/home_controller.dart';
+import 'package:file_picker/file_picker.dart';
 class HomeScr2 extends StatelessWidget {
   const HomeScr2({Key? key}) : super(key: key);
 
@@ -8,17 +14,50 @@ class HomeScr2 extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          title: Text("فيديو"),
-          actions: [Icon((Icons.notifications_outlined))]),body: ListView.builder(itemCount: 100,itemBuilder: (context,pos){
-      return Card(
-        child: Container(height: 60,
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Icon(Icons.play_arrow)
-            ,Text("how to make voice"),
+          title: Text(" تعليمات صوتيه"),
+          actions: [Icon((Icons.notifications_outlined))]),
+      body: GetBuilder<HomeController>(builder: (logic) {
+        return logic.allAudiosModel == null
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView.builder(
+                itemCount: logic.allAudiosModel?.audios?.length,
+                itemBuilder: (context, pos) {
+                  return Card(
+                    child: Container(
+                      height: 60,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  Get.find<HomeController>().playAudio(logic
+                                      .allAudiosModel!.audios![pos].media!);
+                                },
+                                child: Icon(Icons.play_arrow)),
+                            Text( "user id ${logic.allAudiosModel!.audios![pos].employeeId.toString()}"),
+                          ]),
+                    ),
+                  );
+                });
+      }),
+      floatingActionButton: FloatingActionButton.extended(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        onPressed: ()async {
+          FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-          ]),
-        ),
-      );    }),
+          if (result != null) {
+            File file = File(result.files.single.path!);
+
+            Get.find<HomeController>(). uploadAudio(file);
+           // Get.find<HomeController>().uploadideo(file);
+          } else {
+            // User canceled the picker
+          }
+        }, label:  Text("ملف صوتي"),icon: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

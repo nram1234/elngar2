@@ -9,6 +9,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'middleware/auth_middleware.dart';
+import 'nottoad/Demo.dart';
+import 'nottoad/resize.dart';
+import 'nottoad/singggg.dart';
 import 'scr/home.dart';
 
 void main() async{
@@ -33,8 +36,8 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-     // home:       Home()//Login()//Welcom()// const MyHomePage(title: 'Flutter Demo Home Page'),
-           getPages: [
+// home:     Home()//Login()//Welcom()// const MyHomePage(title: 'Flutter Demo Home Page'),
+         getPages: [
         GetPage(name: "/", page: () =>
             const Welcome(),
             middlewares: [

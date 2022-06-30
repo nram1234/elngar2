@@ -39,6 +39,13 @@ dependencies:
   get:
   dio: ^4.0.6
   geolocator:
+  resizable_widget: ^1.0.5
+  syncfusion_flutter_signaturepad: ^20.1.61
+  just_audio: ^0.9.27
+  video_player: ^2.4.5
+  device_info_plus: ^4.0.0
+  file_picker: ^4.6.1
+  http: ^0.13.4
 
 
 
