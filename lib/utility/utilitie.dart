@@ -108,3 +108,13 @@ Future <double>getdestance({required Position? pos}) async {
   print(destans);
   return destans;
 }
+
+Future <Position>getLoction( ) async {
+
+  Position? currentUserLoc;
+  // currentUserLoc =await _determinePosition(); //
+  //double destans=Geolocator.getCurrentPosition( desiredAccuracy: );
+  currentUserLoc=  await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+  return currentUserLoc;
+}

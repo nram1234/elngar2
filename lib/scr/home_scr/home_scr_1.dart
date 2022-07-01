@@ -62,12 +62,16 @@ class HomeScr1 extends StatelessWidget {
                   ),
                 )),
             Center(
-                child: HomeWidget(
-                  path: "assets/pu.png",
-                  titel: 'انشاء طلب اجازة',
-                  height: 60,
-                  color: ColorApp.lastItemInHome.withOpacity(.3),
-                  width: size.width * .9,
+                child: GestureDetector(onTap:(){
+                  Get.toNamed("HolidayRequest");
+                } ,
+                  child: HomeWidget(
+                    path: "assets/pu.png",
+                    titel: 'انشاء طلب اجازة',
+                    height: 60,
+                    color: ColorApp.lastItemInHome.withOpacity(.3),
+                    width: size.width * .9,
+                  ),
                 )),
             Padding(
               padding: const EdgeInsets.only(top: 16.0, bottom: 16),

@@ -12,6 +12,8 @@ import 'middleware/auth_middleware.dart';
 import 'nottoad/Demo.dart';
 import 'nottoad/resize.dart';
 import 'nottoad/singggg.dart';
+import 'scr/binding/holiday_equest_binding.dart';
+import 'scr/holidayRequest/holiday_request_scr.dart';
 import 'scr/home.dart';
 
 void main() async{
@@ -53,6 +55,12 @@ class MyApp extends StatelessWidget {
              GetPage(name: "/Login", page: () =>
                  Login(),
                  binding: LoginBinding())
-   ],);
+
+           ,
+           GetPage(name: "/HolidayRequest", page: () =>
+               HolidayRequestScr(),
+               binding: HolidayRequestBinding())
+
+            ],);
   }
 }

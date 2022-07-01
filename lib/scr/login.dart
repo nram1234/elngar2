@@ -16,7 +16,11 @@ class Login extends GetView<LogingController> {
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Form(key: controller.formKey,
           child: Column(children: [
-            Expanded(flex: 4, child: Container()),
+            Expanded(flex: 4, child: Row(
+              children: [
+                Expanded(child: Image.asset("assets/Rectangle.png")), Expanded(child: Text(" تسجيل الدخول",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),)),
+              ],
+            )),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(validator: controller.nameValidator,controller:controller.username,
@@ -33,7 +37,7 @@ class Login extends GetView<LogingController> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextFormField(validator: controller.passwordValidator,controller: controller.password,
+              child: TextFormField(obscureText: true,validator: controller.passwordValidator,controller: controller.password,
                 decoration: InputDecoration(
                   hintText: "********",
                   errorBorder: OutlineInputBorder(

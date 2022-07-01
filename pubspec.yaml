@@ -46,6 +46,7 @@ dependencies:
   device_info_plus: ^4.0.0
   file_picker: ^4.6.1
   http: ^0.13.4
+  intl: ^0.17.0
 
 
 

@@ -12,7 +12,7 @@ class Welcome extends StatelessWidget {
     Size size=MediaQuery.of(context).size;
     return Scaffold(
       body: Column(children: [
-        Expanded(flex: 5, child: Container()),
+        Expanded(flex: 5, child: Image.asset("assets/logo.png")),
         Text("مرحبا بك في تطبيق\n النجار",style: TextStyle(fontSize: 26),textAlign: TextAlign.center),
         CustomButton(buttonColor: ColorApp.primaryColor,fontSize: 18,fontWeight: FontWeight.bold,title: 'دخول',height: 50, width: size.width*.8, onClick: () {
           print("00000000000000000");

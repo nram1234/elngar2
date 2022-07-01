@@ -68,7 +68,7 @@ logout(){
 
   SecureStorage.deleteSecureData(AllStringConst.Token);
   _logOutAPI.post({"token":SecureStorage.readSecureData(AllStringConst.Token),"language":"ar"}).then((value) {
-
+print(value);
     Get.toNamed("Login");
   });
 }
