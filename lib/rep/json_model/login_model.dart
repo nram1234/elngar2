@@ -131,7 +131,7 @@ class User {
   int? id;
   int? jobNum;
   String? name;
-  Null? deviceId;
+  String? deviceId;
   int? isActive;
   String? createdAt;
   String? updatedAt;

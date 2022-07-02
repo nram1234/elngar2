@@ -8,7 +8,7 @@ import '../../utility/all_string_const.dart';
 import '../../utility/storage.dart';
 
 class HolidayRequestController extends GetxController{
-
+bool sendData=false;
   PostHolidayApi _postHolidayApi=PostHolidayApi();
 
   TextEditingController textEditingControllerFromDocDate = TextEditingController();
@@ -22,6 +22,8 @@ class HolidayRequestController extends GetxController{
 
 
   postHoliday(){
+    sendData=true;
+    update();
 Map<String,dynamic>data={};
 data["branch_id"]=12;
 data["from_date"]=textEditingControllerFromDocDate.text;
@@ -41,8 +43,9 @@ print(data);
       HolidayPostModel data=value as HolidayPostModel;
 print(data.toJson());
 
-
-
+      sendData=false;
+      update();
+Get.back();
     });
 
 

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,9 +12,13 @@ import '../../rep/api/all_holiday_api.dart';
 import '../../rep/api/all_videos_api.dart';
 import '../../rep/api/logout_api.dart';
 import '../../rep/api/upload_video_api.dart';
+import '../../rep/api/user_profile_api.dart';
 import '../../rep/json_model/all_audios_model.dart';
 import '../../rep/json_model/all_holiday_model.dart';
 import '../../rep/json_model/all_videos_model.dart';
+import '../../rep/json_model/login_model.dart';
+import '../../rep/json_model/login_model.dart';
+import '../../rep/json_model/user_profile_model.dart';
 import '../../utility/all_string_const.dart';
 import '../../utility/storage.dart';
 import '../../utility/utilitie.dart';
@@ -29,7 +34,8 @@ class HomeController extends GetxController{
   AllAudiosAPI _allAudiosAPI=AllAudiosAPI();
   AllVideosAPI _allVideosAPI=AllVideosAPI();
   UploadVideoAPI _uploadVideoAPI=UploadVideoAPI();
-
+  UserProfileAPI _userProfileAPI=UserProfileAPI();
+  UserProfileModel? userProfileModel;
   AllHolidayModel? allHolidayModel;
   AllAudiosModel? allAudiosModel;
   AllVideosModel? allVideosModel;
@@ -38,6 +44,40 @@ List<VideoPlayerController>listOfVideoPlayerController=[];
   int index=0;
   List<Widget>screens=[HomeScr1(),HomeScr2(),HomeScr3(),HomeScr4()];
 Widget? screen;
+  Map <String,dynamic>?_logindata;
+
+  LogInModel? data;
+
+
+
+
+
+  Branch? selectPranch;
+  upDateselectPranch(Branch? branch){
+    selectPranch=branch;
+    update();
+  }
+
+
+
+
+
+
+
+
+
+
+
+getUserProfile()async{
+  String token=SecureStorage.readSecureData(AllStringConst.Token)!;
+  _userProfileAPI.data="token=${SecureStorage.readSecureData(AllStringConst.Token)}&language=ar";
+
+
+    _userProfileAPI.getData().then((value) {
+      userProfileModel =value as UserProfileModel;
+      print(userProfileModel?.toJson());
+    });
+}
 
 setindexINProfile(int i){
   indexINProfile=i;
@@ -46,6 +86,9 @@ setindexINProfile(int i){
   @override
   void onInit() {
     super.onInit();
+    _logindata  =   SecureStorage.readSecureJsonData(  AllStringConst.login )    ;
+      data=LogInModel.fromJson(_logindata!);
+      print(data?.toJson());
     _getId();
     screen=screens[index];
    // getdestance();
@@ -53,6 +96,7 @@ setindexINProfile(int i){
     getAllHoliday();
     getAllAudios();
     getAllVideos();
+    getUserProfile();
   }
 
     myScr(int index){
@@ -61,15 +105,17 @@ setindexINProfile(int i){
     update();
   }
 
-logout(){
+logout()async{
 
 
 
 
-  SecureStorage.deleteSecureData(AllStringConst.Token);
-  _logOutAPI.post({"token":SecureStorage.readSecureData(AllStringConst.Token),"language":"ar"}).then((value) {
+
+ String token=await SecureStorage.readSecureData(AllStringConst.Token)!;
+  _logOutAPI.post({"token":token,"language":"ar"}).then((value) {
+    SecureStorage.deleteSecureData(AllStringConst.Token);
 print(value);
-    Get.toNamed("Login");
+    Get.offAllNamed("Login");
   });
 }
 getAllHoliday(){
@@ -178,5 +224,33 @@ playAudio(String url)async{
     print(response.reasonPhrase);
     }
 
+  }
+
+
+
+  getUserLocAndDestBtwenbranchAndUser()async{
+    Position position=await   getLoction( );
+    Branch bestBranch=   data!.data!.branch![0];
+    double dest=9999999999;
+      data?.data?.branch?.forEach((element) {
+      getdestance(pos: position,pranchlat: element.latitude,pranchLong: element.longitude).then((value) {
+
+
+          if(dest>value){
+            dest=value;
+            bestBranch=element;
+          }
+
+      });
+    });
+
+
+    if(dest<30){
+      Get.snackbar("", "تم تسجيل الحضور");
+
+
+    }else{
+      Get.snackbar("", "تحتاج الي الدخول داخل الفرع اقرب فرع لك هو ${bestBranch.name}");
+    }
   }
 }

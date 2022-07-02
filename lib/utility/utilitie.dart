@@ -89,19 +89,19 @@ Future<Position> _determinePosition() async {
   );
   StreamSubscription<Position> positionStream = Geolocator.getPositionStream(locationSettings: locationSettings).listen(
           (Position? position) async{
-if(position!=null){
-  double d=await    getdestance(pos: position);
-}
+// if(position!=null){
+//   double d=await    getdestance(pos: position);
+// }
 
         print(position == null ? 'Unknown' : '${position.latitude.toString()}, ${position.longitude.toString()}');
 
       });
 }
-Future <double>getdestance({required Position? pos}) async {
+Future <double>getdestance({required Position? pos,required pranchLong,required pranchlat}) async {
 
   Position? currentUserLoc;
  // currentUserLoc =await _determinePosition(); //
-  double destans=Geolocator.distanceBetween(pos!.latitude, pos.longitude, 31.246782359660724, 29.97102068810693);
+  double destans=Geolocator.distanceBetween(pos!.latitude, pos.longitude,double.parse(pranchlat),  double.parse(pranchLong));
   //await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   print(pos.latitude);
   print(pos.longitude);

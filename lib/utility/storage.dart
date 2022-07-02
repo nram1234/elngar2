@@ -33,4 +33,16 @@ class SecureStorage {
     var deleteData = await box.remove( key);
     return deleteData;
   }
+
+  static  Future writeSecureJsonData({required String key, value})  async {
+
+
+    var writeData = await box.write( key,value);
+    return writeData;
+  }
+ static Map<String,dynamic>? readSecureJsonData(String key)   {
+
+    var readData =   box.read( key);
+    return readData;
+  }
 }

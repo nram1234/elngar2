@@ -2,23 +2,29 @@ import 'package:elngar/scr/controller/holiday_request_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../rep/json_model/login_model.dart';
 import '../../utility/app_colors.dart';
+import '../controller/home_controller.dart';
 import '../shareWidget/custom_button.dart';
 
 class HolidayRequestScr extends GetView<HolidayRequestController> {
+  TextEditingController textfiledname = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(children: [
-            Row(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
+            Row(mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [Expanded(child: Image.asset("assets/sign.png")),
-                Expanded(child: Text("طلب اجازة",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),)),
+                Expanded(child: Text("طلب اجازة", style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 40),)),
 
               ],
             )
-       , Padding(
+            , Padding(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: Directionality(textDirection: TextDirection.rtl,
                 child: TextField(
@@ -31,53 +37,30 @@ class HolidayRequestScr extends GetView<HolidayRequestController> {
             ),
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Container(width:double.infinity,decoration: BoxDecoration(border: Border.all()),
-                child: DropdownButton<String>(
-                  value: null,
-                  icon: const Icon(Icons.arrow_downward),
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.deepPurple),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.deepPurpleAccent,
-                  ),
-                  onChanged: (String? newValue) {
-
-                  },
-                  items: <String>['One', 'Two', 'Free', 'Four']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+              child: Container(width: double.infinity,
+                decoration: BoxDecoration(border: Border.all()),
+                child: GetBuilder<HomeController>(
+                    builder: (logic) {
+                      return DropdownButton<Branch>(
+                        value: logic.selectPranch,hint: const Text("اختار الفرع"),
+                        isExpanded: true,
+                        //  icon: const Icon(Icons.arrow_downward),
+                        elevation: 16,
+                        //  style: const TextStyle(color: Colors.deepPurple),
+                        underline: SizedBox(),
+                        alignment: Alignment.centerRight,
+                        onChanged: logic.upDateselectPranch,
+                        items: logic.data!.data!.branch!
+                            .map<DropdownMenuItem<Branch>>((Branch value) {
+                          return DropdownMenuItem<Branch>(
+                            value: value,
+                            child: Text(value.name!),
+                          );
+                        }).toList(),
+                      );
+                    }),
               ),
             ),
 
@@ -88,24 +71,25 @@ class HolidayRequestScr extends GetView<HolidayRequestController> {
                   Expanded(
                     flex: 4,
                     child: InkWell(onTap: () {
-controller.selectFromDocDate(context: context);
+                      controller.selectFromDocDate(context: context);
                     },
                       child: Container(
                           height: 60,
                           padding: EdgeInsets.only(right: 8, left: 8),
                           decoration: BoxDecoration(
                               border: Border.all(
-                                  // color: Theme
-                                  //     .of(context)
-                                  //     .colorScheme
-                                  //     .primary
+                                // color: Theme
+                                //     .of(context)
+                                //     .colorScheme
+                                //     .primary
 
                               ),
                               borderRadius: const BorderRadius.all(
                                   Radius.circular(6))),
                           child:
                           TextField(enabled: false,
-                            controller: controller.textEditingControllerFromDocDate,
+                            controller: controller
+                                .textEditingControllerFromDocDate,
                             decoration: const InputDecoration(
                               border: UnderlineInputBorder(),
                               labelText: 'From',
@@ -122,19 +106,19 @@ controller.selectFromDocDate(context: context);
                   Expanded(
                     flex: 4,
                     child: InkWell(onTap: () {
-controller.selectToDocDate(context: context);
+                      controller.selectToDocDate(context: context);
                     },
                       child: Container(
                           height: 60,
                           padding: EdgeInsets.only(right: 8, left: 8),
                           decoration: BoxDecoration(
                               border: Border.all(
-                                  //color:
+                                //color:
 
-                                  // Theme
-                                  //     .of(context)
-                                  //     .colorScheme
-                                  //     .primary
+                                // Theme
+                                //     .of(context)
+                                //     .colorScheme
+                                //     .primary
 
 
                               ),
@@ -142,7 +126,8 @@ controller.selectToDocDate(context: context);
                                   Radius.circular(6))),
                           child:
                           TextField(enabled: false,
-                            controller: controller.textEditingControllerToDocDate,
+                            controller: controller
+                                .textEditingControllerToDocDate,
                             decoration: const InputDecoration(
                               border: UnderlineInputBorder(),
                               labelText: 'To',
@@ -157,11 +142,11 @@ controller.selectToDocDate(context: context);
             ),
 
 
-
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: Directionality(textDirection: TextDirection.rtl,
-                child: TextField( maxLines: 6,controller: controller.textEditingControllerreason,
+                child: TextField(maxLines: 6,
+                  controller: controller.textEditingControllerreason,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: '', labelText: 'سبب الاجازة',
@@ -171,17 +156,23 @@ controller.selectToDocDate(context: context);
             ),
 
 
-
-
-            CustomButton(width: MediaQuery.of(context).size.width*.7, buttonColor: ColorApp.primaryColor,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              title: 'ارسل الطلب',
-              height: 50,onClick: (){
-
-
-controller.postHoliday();
-              },)]),
+            GetBuilder<HolidayRequestController>(
+                builder: (logic) {
+                  return logic.sendData?Center(child: CircularProgressIndicator(),): CustomButton(
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * .7,
+                    buttonColor: ColorApp.primaryColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    title: 'ارسل الطلب',
+                    height: 50,
+                    onClick: () {
+                      controller.postHoliday();
+                    },);
+                })
+          ]),
         ),
       ),
     );

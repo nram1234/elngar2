@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
+import '../../utility/all_string_const.dart';
+import '../../utility/storage.dart';
 import '../controller/home_controller.dart';
 import '../shareWidget/home_widget.dart';
 
@@ -34,19 +36,23 @@ class HomeScr1 extends StatelessWidget {
                           fontSize: 14,
                           fontWeight: FontWeight.normal,
                           color: ColorApp.greenColor)),
-                  Text('محمد احمد',
+                  Text(SecureStorage.readSecureData(AllStringConst.UserName)??"",
                       style:
                       TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
             Center(
-                child: HomeWidget(
-                  titel: 'تسجيل حضور',
-                  height: 60,
-                  color: ColorApp.greenColor.withOpacity(.5),
-                  width: size.width * .9,
-                  path: "assets/ch.png",
+                child: GestureDetector(onTap: (){
+              Get.find<HomeController>()   . getUserLocAndDestBtwenbranchAndUser();
+                },
+                  child: HomeWidget(
+                    titel: 'تسجيل حضور',
+                    height: 60,
+                    color: ColorApp.greenColor.withOpacity(.5),
+                    width: size.width * .9,
+                    path: "assets/ch.png",
+                  ),
                 )),
             Center(
                 child: GestureDetector(

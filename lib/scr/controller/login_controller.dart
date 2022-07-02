@@ -48,16 +48,22 @@ String? nameValidator  (value) {
   //a['long']  =currentUserLoc.latitude;
     AndroidDeviceInfo info=await _getId();
 
- // a['device_id']=info.id;
+ a['device_id']=info.id.toString();
 
-    logInAPI.post(a).then((value) {
+    logInAPI.post(a).then((value) async{
 
       LogInModel data=value as LogInModel;
       print(data.status);
       print(a);
       if(data.status==true){
-
+        await SecureStorage.writeSecureJsonData(
+            key:AllStringConst.login ,value: data.toJson());
         SecureStorage.writeSecureData(key: AllStringConst.Token,value: data.data!.user!.token!);
+
+        SecureStorage.writeSecureData(key: AllStringConst.jobNum,value: data.data!.user!.jobNum.toString());
+
+        SecureStorage.writeSecureData(key: AllStringConst.UserName,value: data.data!.user!.name!);
+
 
         Get.toNamed("Home");
       }else{
