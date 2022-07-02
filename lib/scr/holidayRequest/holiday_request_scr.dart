@@ -158,7 +158,7 @@ class HolidayRequestScr extends GetView<HolidayRequestController> {
 
             GetBuilder<HolidayRequestController>(
                 builder: (logic) {
-                  return logic.sendData?Center(child: CircularProgressIndicator(),): CustomButton(
+                  return logic.sendData?Center(child: const CircularProgressIndicator(),): CustomButton(
                     width: MediaQuery
                         .of(context)
                         .size
