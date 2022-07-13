@@ -36,7 +36,7 @@ class UserProfile {
   String? image;
   String? type;
   String? startWorkDate;
-  String? payroll;
+  int? payroll;
 
   UserProfile(
       {this.id,

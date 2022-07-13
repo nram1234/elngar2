@@ -44,8 +44,8 @@ String? nameValidator  (value) {
     a['job_num']  =username.text;
     a['password']  =password.text;
     a['language']  = 'ar';
-//  a['lat']  = currentUserLoc.longitude;
-  //a['long']  =currentUserLoc.latitude;
+   a['lat']  = currentUserLoc?.longitude;
+ a['long']  =currentUserLoc?.latitude;
     AndroidDeviceInfo info=await _getId();
 
  a['device_id']=info.id.toString();
@@ -53,20 +53,22 @@ String? nameValidator  (value) {
     logInAPI.post(a).then((value) async{
 
       LogInModel data=value as LogInModel;
+      print( "this is tokenn =>${data.user?.token}");
+       print(data.status==true);
       print(data.status);
-      print(a);
       if(data.status==true){
+print("000000000000000000000000000000000000000000000");
+        await SecureStorage.writeSecureData(key: AllStringConst.Token,value: data.user!.token!);
+
+        await SecureStorage.writeSecureData(key: AllStringConst.jobNum,value: data.user!.jobNum.toString());
+
+        await SecureStorage.writeSecureData(key: AllStringConst.UserName,value: data.user!.name!);
+
         await SecureStorage.writeSecureJsonData(
             key:AllStringConst.login ,value: data.toJson());
-        SecureStorage.writeSecureData(key: AllStringConst.Token,value: data.data!.user!.token!);
-
-        SecureStorage.writeSecureData(key: AllStringConst.jobNum,value: data.data!.user!.jobNum.toString());
-
-        SecureStorage.writeSecureData(key: AllStringConst.UserName,value: data.data!.user!.name!);
-
-
         Get.toNamed("Home");
       }else{
+        print(data.msg);
         Get.snackbar("", data.msg!);
       }
       islogin=false;

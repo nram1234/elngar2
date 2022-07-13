@@ -1,3 +1,4 @@
+
 import 'package:elngar/scr/binding/home_binding.dart';
 import 'package:elngar/scr/binding/login_binding.dart';
 import 'package:elngar/scr/login.dart';
@@ -7,7 +8,7 @@ import 'package:elngar/utility/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
+import 'package:workmanager/workmanager.dart';
 import 'middleware/auth_middleware.dart';
 import 'nottoad/Demo.dart';
 import 'nottoad/resize.dart';
@@ -19,11 +20,23 @@ import 'scr/home.dart';
 void main() async{
 
     WidgetsFlutterBinding.ensureInitialized();
-   await GetStorage.init();
-    print("0"*20);
-print(SecureStorage.readSecureData(AllStringConst.Token));
-    print("0"*20);
+
+    await GetStorage.init();
+
+    print("token in start ${SecureStorage.readSecureData(AllStringConst.Token)}");
+    // await Workmanager().initialize(
+    //   callbackDispatcher,isInDebugMode: true,
+    // );
+    // await Workmanager().registerPeriodicTask(
+    //   "1",
+    //   fetchBackground,
+    //   frequency: Duration(seconds: 10),
+    //   constraints: Constraints(
+    //     networkType: NetworkType.connected,
+    //   ),
+    // );
   runApp(  MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -32,6 +45,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return GetMaterialApp( debugShowCheckedModeBanner: false,
       title: ' ',
       theme: ThemeData(

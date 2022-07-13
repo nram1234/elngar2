@@ -12,5 +12,8 @@ class APIApp {
   static const String uploadVideoUrl =baseUrl+"api/uploadVideo?";
   static const String postHolidayUrl =baseUrl+"api/holiday";
   static const String getUserProfileUrl =baseUrl+"api/user_profile?";
+  static const String PostAttendanceUrl =baseUrl+"api/attendance";
+  static const String getBranchsUrl =baseUrl+"api/branchs?";
+
 
 }

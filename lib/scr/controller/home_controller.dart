@@ -10,12 +10,16 @@ import 'package:dio/dio.dart' as di;
 import '../../rep/api/all_audios_api.dart';
 import '../../rep/api/all_holiday_api.dart';
 import '../../rep/api/all_videos_api.dart';
+import '../../rep/api/attendance_api.dart';
+import '../../rep/api/branchs_api.dart';
 import '../../rep/api/logout_api.dart';
 import '../../rep/api/upload_video_api.dart';
 import '../../rep/api/user_profile_api.dart';
 import '../../rep/json_model/all_audios_model.dart';
 import '../../rep/json_model/all_holiday_model.dart';
 import '../../rep/json_model/all_videos_model.dart';
+import '../../rep/json_model/attendance_model.dart';
+import '../../rep/json_model/branchs_model.dart';
 import '../../rep/json_model/login_model.dart';
 import '../../rep/json_model/login_model.dart';
 import '../../rep/json_model/user_profile_model.dart';
@@ -35,6 +39,12 @@ class HomeController extends GetxController{
   AllVideosAPI _allVideosAPI=AllVideosAPI();
   UploadVideoAPI _uploadVideoAPI=UploadVideoAPI();
   UserProfileAPI _userProfileAPI=UserProfileAPI();
+  AttendanceAPI _attendanceAPI=AttendanceAPI();
+  BranchsAPI _branchsAPI=BranchsAPI();
+
+
+  BranchsModel? branchsModel;
+  AttendanceModel?attendanceModel;
   UserProfileModel? userProfileModel;
   AllHolidayModel? allHolidayModel;
   AllAudiosModel? allAudiosModel;
@@ -50,13 +60,13 @@ Widget? screen;
 
 
 
+bool getAttendance=false;
 
-
-  Branch? selectPranch;
-  upDateselectPranch(Branch? branch){
-    selectPranch=branch;
-    update();
-  }
+  // Branch? selectPranch;
+  // upDateselectPranch(Branch? branch){
+  //   selectPranch=branch;
+  //   update();
+  // }
 
 
 
@@ -75,7 +85,7 @@ getUserProfile()async{
 
     _userProfileAPI.getData().then((value) {
       userProfileModel =value as UserProfileModel;
-      print(userProfileModel?.toJson());
+     // print(userProfileModel?.toJson());
     });
 }
 
@@ -88,12 +98,13 @@ setindexINProfile(int i){
     super.onInit();
     _logindata  =   SecureStorage.readSecureJsonData(  AllStringConst.login )    ;
       data=LogInModel.fromJson(_logindata!);
-      print(data?.toJson());
+     // print(data?.toJson());
     _getId();
     screen=screens[index];
    // getdestance();
     getPositionAsStream();
     getAllHoliday();
+    getBranchs();
     getAllAudios();
     getAllVideos();
     getUserProfile();
@@ -114,12 +125,13 @@ logout()async{
  String token=await SecureStorage.readSecureData(AllStringConst.Token)!;
   _logOutAPI.post({"token":token,"language":"ar"}).then((value) {
     SecureStorage.deleteSecureData(AllStringConst.Token);
-print(value);
+//print(value);
     Get.offAllNamed("Login");
   });
 }
 getAllHoliday(){
   _allHolidayAPI.data="?token=${SecureStorage.readSecureData(AllStringConst.Token)}";
+  // print(_allHolidayAPI.data);
   _allHolidayAPI.getData( ).then((value) {
 
     allHolidayModel=value as AllHolidayModel;
@@ -149,14 +161,14 @@ playAudio(String url)async{
   _allVideosAPI.getData().then((value) {
     print("value===>  $value");
     allVideosModel =value as AllVideosModel ;
-    allVideosModel?.videos?.forEach((element)  {
+    allVideosModel?.media?.forEach((element)  {
       VideoPlayerController videoPlayerController=VideoPlayerController.network(
           element.media!)
         ..initialize();
 
       listOfVideoPlayerController.add(videoPlayerController);
     });
-    print(allVideosModel?.toJson());
+    //print(allVideosModel?.toJson());
     update();
   });
   }
@@ -216,7 +228,7 @@ playAudio(String url)async{
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-    print(await response.stream.bytesToString());
+   // print(await response.stream.bytesToString());
     getAllAudios();
     print("upload ddddddd");
     }
@@ -227,30 +239,62 @@ playAudio(String url)async{
   }
 
 
-
+  //
   getUserLocAndDestBtwenbranchAndUser()async{
-    Position position=await   getLoction( );
-    Branch bestBranch=   data!.data!.branch![0];
+    getAttendance=true;
+    update();
+
+    Position? position=await   getLoction( );
+
     double dest=9999999999;
-      data?.data?.branch?.forEach((element) {
+    Branches? bestBranch=  branchsModel?.branches?[0];
+    print("element.toJson()=>  ${branchsModel?.branches}");
+
+    branchsModel?.branches?.forEach((element) {
+
       getdestance(pos: position,pranchlat: element.latitude,pranchLong: element.longitude).then((value) {
 
 
-          if(dest>value){
-            dest=value;
-            bestBranch=element;
-          }
+        if(dest>value){
+          dest=value;
+          bestBranch=element;
+        }
 
       });
+
     });
-
-
     if(dest<30){
-      Get.snackbar("", "تم تسجيل الحضور");
+    //  Get.snackbar("", "تم تسجيل الحضور");
+      getAttendance=true;
+      update();
+      Map<String,dynamic>data={};
+      data["language"]="ar";
 
+      data["token"]= SecureStorage.readSecureData(AllStringConst.Token)!;
+
+    await  _attendanceAPI.post(data).then((value) {
+
+        attendanceModel=value as AttendanceModel;
+      //  print(attendanceModel?.toJson());
+
+   Get.snackbar("", attendanceModel!.msg!);
+
+      });
 
     }else{
-      Get.snackbar("", "تحتاج الي الدخول داخل الفرع اقرب فرع لك هو ${bestBranch.name}");
+      Get.snackbar("", "تحتاج الي الدخول داخل الفرع اقرب فرع لك هو ${bestBranch?.name}");
     }
+    getAttendance=false;
+    update();
+
+  }
+
+
+  getBranchs(){
+    _branchsAPI.data="token=${SecureStorage.readSecureData(AllStringConst.Token)}";
+  _branchsAPI.getData().then((value) {
+    branchsModel =value as BranchsModel;
+    print("branchsModel?.toJson()=>    ${branchsModel?.toJson()}");
+  });
   }
 }

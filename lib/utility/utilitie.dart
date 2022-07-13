@@ -109,12 +109,20 @@ Future <double>getdestance({required Position? pos,required pranchLong,required 
   return destans;
 }
 
-Future <Position>getLoction( ) async {
+Future <Position?>getLoction( ) async {
 
   Position? currentUserLoc;
   // currentUserLoc =await _determinePosition(); //
   //double destans=Geolocator.getCurrentPosition( desiredAccuracy: );
-  currentUserLoc=  await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  LocationPermission
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+
+  }else{
+    currentUserLoc=  await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  }
+
 
   return currentUserLoc;
 }

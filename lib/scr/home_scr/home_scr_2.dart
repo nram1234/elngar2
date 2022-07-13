@@ -22,7 +22,7 @@ class HomeScr2 extends StatelessWidget {
                 child: CircularProgressIndicator(),
               )
             : ListView.builder(
-                itemCount: logic.allAudiosModel?.audios?.length,
+                itemCount: logic.allAudiosModel?.media?.length,
                 itemBuilder: (context, pos) {
                   return Card(
                     child: Container(
@@ -33,10 +33,10 @@ class HomeScr2 extends StatelessWidget {
                             GestureDetector(
                                 onTap: () {
                                   Get.find<HomeController>().playAudio(logic
-                                      .allAudiosModel!.audios![pos].media!);
+                                      .allAudiosModel!.media![pos].media!);
                                 },
                                 child: Icon(Icons.play_arrow)),
-                            Text( "user id ${logic.allAudiosModel!.audios![pos].employeeId.toString()}"),
+                            Text( "user id ${logic.allAudiosModel!.media![pos].id.toString()}"),
                           ]),
                     ),
                   );

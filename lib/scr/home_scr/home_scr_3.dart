@@ -17,10 +17,10 @@ class HomeScr3 extends StatelessWidget {
           actions: [Icon((Icons.notifications_outlined))]),
       body: GetBuilder<HomeController>(builder: (logic) {
         return logic.allVideosModel==null?Center(child: CircularProgressIndicator(),): ListView.builder(
-            itemCount: logic.allVideosModel?.videos?.length,
+            itemCount: logic.allVideosModel?.media?.length,
             itemBuilder: (context, pos) {
               VideoPlayerController videoPlayerController=VideoPlayerController.network(
-                  logic.allVideosModel!.videos![pos].media!
+                  logic.allVideosModel!.media![pos].media!
 
             //  "https://safsooofa.com/images/media/videos/BSnNrHGgofRJ1MTA9TLNX0MtheDKevuyw0F3fjzw.mp4"
               )..initialize();

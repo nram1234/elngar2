@@ -37,32 +37,32 @@ class HolidayRequestScr extends GetView<HolidayRequestController> {
             ),
 
 
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Container(width: double.infinity,
-                decoration: BoxDecoration(border: Border.all()),
-                child: GetBuilder<HomeController>(
-                    builder: (logic) {
-                      return DropdownButton<Branch>(
-                        value: logic.selectPranch,hint: const Text("اختار الفرع"),
-                        isExpanded: true,
-                        //  icon: const Icon(Icons.arrow_downward),
-                        elevation: 16,
-                        //  style: const TextStyle(color: Colors.deepPurple),
-                        underline: SizedBox(),
-                        alignment: Alignment.centerRight,
-                        onChanged: logic.upDateselectPranch,
-                        items: logic.data!.data!.branch!
-                            .map<DropdownMenuItem<Branch>>((Branch value) {
-                          return DropdownMenuItem<Branch>(
-                            value: value,
-                            child: Text(value.name!),
-                          );
-                        }).toList(),
-                      );
-                    }),
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            //   child: Container(width: double.infinity,
+            //     decoration: BoxDecoration(border: Border.all()),
+            //     child: GetBuilder<HomeController>(
+            //         builder: (logic) {
+            //           return DropdownButton<Branch>(
+            //             value: logic.selectPranch,hint: const Text("اختار الفرع"),
+            //             isExpanded: true,
+            //             //  icon: const Icon(Icons.arrow_downward),
+            //             elevation: 16,
+            //             //  style: const TextStyle(color: Colors.deepPurple),
+            //             underline: SizedBox(),
+            //             alignment: Alignment.centerRight,
+            //             onChanged: logic.upDateselectPranch,
+            //             items: logic.data!.data!.branch!
+            //                 .map<DropdownMenuItem<Branch>>((Branch value) {
+            //               return DropdownMenuItem<Branch>(
+            //                 value: value,
+            //                 child: Text(value.name!),
+            //               );
+            //             }).toList(),
+            //           );
+            //         }),
+            //   ),
+            // ),
 
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),

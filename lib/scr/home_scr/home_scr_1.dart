@@ -36,24 +36,28 @@ class HomeScr1 extends StatelessWidget {
                           fontSize: 14,
                           fontWeight: FontWeight.normal,
                           color: ColorApp.greenColor)),
-                  Text(SecureStorage.readSecureData(AllStringConst.UserName)??"",
+                  Text(SecureStorage.readSecureData(AllStringConst.UserName) ??
+                      "",
                       style:
                       TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
-            Center(
-                child: GestureDetector(onTap: (){
-              Get.find<HomeController>()   . getUserLocAndDestBtwenbranchAndUser();
-                },
-                  child: HomeWidget(
-                    titel: 'تسجيل حضور',
-                    height: 60,
-                    color: ColorApp.greenColor.withOpacity(.5),
-                    width: size.width * .9,
-                    path: "assets/ch.png",
-                  ),
-                )),
+            GetBuilder<HomeController>(builder: (logic) {
+              return Center(
+                  child:logic.getAttendance?SizedBox(height: 50,width: 50,child: CircularProgressIndicator()): GestureDetector(onTap: () {
+                    Get.find<HomeController>()
+                        .getUserLocAndDestBtwenbranchAndUser();
+                  },
+                    child: HomeWidget(
+                      titel: 'تسجيل حضور',
+                      height: 60,
+                      color: ColorApp.greenColor.withOpacity(.5),
+                      width: size.width * .9,
+                      path: "assets/ch.png",
+                    ),
+                  ));
+            }),
             Center(
                 child: GestureDetector(
                   onTap: () {
@@ -68,9 +72,9 @@ class HomeScr1 extends StatelessWidget {
                   ),
                 )),
             Center(
-                child: GestureDetector(onTap:(){
+                child: GestureDetector(onTap: () {
                   Get.toNamed("HolidayRequest");
-                } ,
+                },
                   child: HomeWidget(
                     path: "assets/pu.png",
                     titel: 'انشاء طلب اجازة',
@@ -85,7 +89,8 @@ class HomeScr1 extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
             GetBuilder<HomeController>(builder: (logic) {
-              return logic.allHolidayModel==null?Center(child: CircularProgressIndicator(),): Row(
+              return logic.allHolidayModel == null ? Center(
+                child: CircularProgressIndicator(),) : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Expanded(
@@ -162,7 +167,9 @@ class HomeScr1 extends StatelessWidget {
                                 percent: .4,
                                 animation: true,
                                 circularStrokeCap: CircularStrokeCap.round,
-                                center: Text(logic.allHolidayModel!.holiday!.length.toString(),
+                                center: Text(
+                                    logic.allHolidayModel!.holiday!.length
+                                        .toString(),
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: ColorApp.accentColor,
