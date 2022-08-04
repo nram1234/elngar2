@@ -14,6 +14,8 @@ class APIApp {
   static const String getUserProfileUrl =baseUrl+"api/user_profile?";
   static const String PostAttendanceUrl =baseUrl+"api/attendance";
   static const String getBranchsUrl =baseUrl+"api/branchs?";
+  static const String getHomeUrl =baseUrl+"api/home?";
+
 
 
 }

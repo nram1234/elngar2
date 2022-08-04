@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "329891622279",
+    "project_id": "elngar-e9148",
+    "storage_bucket": "elngar-e9148.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329891622279:android:f1be6f60c6e4f3a152b722",
+        "android_client_info": {
+          "package_name": "com.example.elngar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329891622279-de2vkqqok7un7qjueaake3muph5bc816.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.elngar",
+            "certificate_hash": "e91710c2220e09332783657d7bd99f0e35d63ee1"
+          }
+        },
+        {
+          "client_id": "329891622279-duudie6flep4282grmpq0pi5e76916mg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq4Cn2I7_tE9_vXEj6XPVH5VBRLoSy53Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "329891622279-duudie6flep4282grmpq0pi5e76916mg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

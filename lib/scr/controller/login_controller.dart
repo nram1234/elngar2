@@ -51,13 +51,14 @@ String? nameValidator  (value) {
  a['device_id']=info.id.toString();
 
     logInAPI.post(a).then((value) async{
-
+print(value);
       LogInModel data=value as LogInModel;
       print( "this is tokenn =>${data.user?.token}");
        print(data.status==true);
       print(data.status);
       if(data.status==true){
 print("000000000000000000000000000000000000000000000");
+print( "this is tokenn =>${data.toJson()}");
         await SecureStorage.writeSecureData(key: AllStringConst.Token,value: data.user!.token!);
 
         await SecureStorage.writeSecureData(key: AllStringConst.jobNum,value: data.user!.jobNum.toString());
@@ -68,13 +69,13 @@ print("000000000000000000000000000000000000000000000");
             key:AllStringConst.login ,value: data.toJson());
         Get.toNamed("Home");
       }else{
-        print(data.msg);
+
         Get.snackbar("", data.msg!);
       }
       islogin=false;
 update();
 
-    });
+    }) ;
 
   }
   }

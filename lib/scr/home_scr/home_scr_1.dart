@@ -61,6 +61,19 @@ class HomeScr1 extends StatelessWidget {
             Center(
                 child: GestureDetector(
                   onTap: () {
+
+                  },
+                  child: HomeWidget(
+                    path: "assets/x.png",
+                    titel: 'تسجيل مغادرة',
+                    height: 60,
+                    color:  ColorApp.greenColor.withOpacity(.2),
+                    width: size.width * .9,
+                  ),
+                )),
+            Center(
+                child: GestureDetector(
+                  onTap: () {
                     Get.find<HomeController>().logout();
                   },
                   child: HomeWidget(
@@ -89,7 +102,7 @@ class HomeScr1 extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
             GetBuilder<HomeController>(builder: (logic) {
-              return logic.allHolidayModel == null ? Center(
+              return logic.homeModel == null ? Center(
                 child: CircularProgressIndicator(),) : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -117,10 +130,10 @@ class HomeScr1 extends StatelessWidget {
                                 radius: 60.0,
                                 lineWidth: 20,
                                 backgroundColor: ColorApp.whiteColor,
-                                percent: .8,
+                                percent: logic.homeModel!.home!.attendance! /30,
                                 animation: true,
                                 circularStrokeCap: CircularStrokeCap.round,
-                                center: Text("0",
+                                center: Text(logic.homeModel!.home!.attendance.toString(),
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: ColorApp.greenColor,
@@ -164,11 +177,14 @@ class HomeScr1 extends StatelessWidget {
                                 radius: 60.0,
                                 lineWidth: 20,
                                 backgroundColor: ColorApp.whiteColor,
-                                percent: .4,
+                                percent:  logic.homeModel!.home!.absence! /30,
                                 animation: true,
                                 circularStrokeCap: CircularStrokeCap.round,
                                 center: Text(
-                                    logic.allHolidayModel!.holiday!.length
+                                    logic.homeModel!.home!.absence
+
+
+
                                         .toString(),
                                     style: TextStyle(
                                         fontSize: 20,

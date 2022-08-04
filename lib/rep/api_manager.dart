@@ -65,7 +65,7 @@ abstract class ApiManager {
       //     }),
     )
         .then((value) {
-          print(value.data);
+print(value.data);
       data = value.data;
       jsonList = fromJson(data);
     });

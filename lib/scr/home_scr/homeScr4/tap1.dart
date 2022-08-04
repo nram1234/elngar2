@@ -60,7 +60,36 @@ class Tap1 extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(border: Border.all(),borderRadius: BorderRadius.circular(10))),
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(padding: EdgeInsets.only(right:8,left: 8),
+                      width: size.width,
+                      height: 50,
+                      child: Row(  mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
 
+                          Text(
+                              "  ${logic.userProfileModel!.userProfile!.payroll}"),
+                          Text(
+                              " :  المرتب"), ],
+                      ),
+                      decoration: BoxDecoration(border: Border.all(),borderRadius: BorderRadius.circular(10))),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(padding: EdgeInsets.only(right:8,left: 8),
+                      width: size.width,
+                      height: 50,
+                      child: Row(  mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+
+                          Text(
+                              "  ${logic.userProfileModel!.userProfile!.startWorkDate}"),
+                          Text(
+                              " :  تاريخ البداء"), ],
+                      ),
+                      decoration: BoxDecoration(border: Border.all(),borderRadius: BorderRadius.circular(10))),
+                ),
                 // Padding(
                 //   padding: const EdgeInsets.all(8.0),
                 //   child: TextFormField(

@@ -1,4 +1,4 @@
-import 'package:elngar/rep/abstract_json_resource.dart';
+import '../abstract_json_resource.dart';
 
 class LogInModel extends AbstractJsonResource{
   bool? status;
@@ -30,12 +30,12 @@ class LogInModel extends AbstractJsonResource{
 class User {
   int? id;
   int? jobNum;
-  Null? branchId;
+  int? branchId;
   String? name;
   int? isActive;
   String? deviceId;
-  String? lat;
-  String? long;
+  double? lat;
+  double? long;
   String? createdAt;
   String? updatedAt;
   String? type;

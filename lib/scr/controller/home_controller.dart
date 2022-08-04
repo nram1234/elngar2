@@ -12,6 +12,7 @@ import '../../rep/api/all_holiday_api.dart';
 import '../../rep/api/all_videos_api.dart';
 import '../../rep/api/attendance_api.dart';
 import '../../rep/api/branchs_api.dart';
+import '../../rep/api/home_api.dart';
 import '../../rep/api/logout_api.dart';
 import '../../rep/api/upload_video_api.dart';
 import '../../rep/api/user_profile_api.dart';
@@ -20,6 +21,7 @@ import '../../rep/json_model/all_holiday_model.dart';
 import '../../rep/json_model/all_videos_model.dart';
 import '../../rep/json_model/attendance_model.dart';
 import '../../rep/json_model/branchs_model.dart';
+import '../../rep/json_model/home_model.dart';
 import '../../rep/json_model/login_model.dart';
 import '../../rep/json_model/login_model.dart';
 import '../../rep/json_model/user_profile_model.dart';
@@ -41,8 +43,8 @@ class HomeController extends GetxController{
   UserProfileAPI _userProfileAPI=UserProfileAPI();
   AttendanceAPI _attendanceAPI=AttendanceAPI();
   BranchsAPI _branchsAPI=BranchsAPI();
-
-
+  HomeAPI _homeAPI=HomeAPI();
+  HomeModel? homeModel;
   BranchsModel? branchsModel;
   AttendanceModel?attendanceModel;
   UserProfileModel? userProfileModel;
@@ -74,7 +76,15 @@ bool getAttendance=false;
 
 
 
+getHome(){
+  _homeAPI.data="token=${SecureStorage.readSecureData(AllStringConst.Token)}";
+  _homeAPI.getData().then((value) {
+    homeModel =value as HomeModel;
+update();
 
+  });
+
+}
 
 
 
@@ -105,6 +115,7 @@ setindexINProfile(int i){
     getPositionAsStream();
     getAllHoliday();
     getBranchs();
+    getHome();
     getAllAudios();
     getAllVideos();
     getUserProfile();

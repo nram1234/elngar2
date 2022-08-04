@@ -24,17 +24,17 @@ class HolidayRequestScr extends GetView<HolidayRequestController> {
 
               ],
             )
-            , Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: Directionality(textDirection: TextDirection.rtl,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: '', labelText: 'الاسم',
-                  ),
-                ),
-              ),
-            ),
+            // , Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            //   child: Directionality(textDirection: TextDirection.rtl,
+            //     child: TextField(
+            //       decoration: InputDecoration(
+            //         border: OutlineInputBorder(),
+            //         hintText: '', labelText: 'الاسم',
+            //       ),
+            //     ),
+            //   ),
+            // ),
 
 
             // Padding(
@@ -64,7 +64,7 @@ class HolidayRequestScr extends GetView<HolidayRequestController> {
             //   ),
             // ),
 
-            Padding(
+           , Padding(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               child: Row(
                 children: [

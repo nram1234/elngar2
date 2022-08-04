@@ -6,6 +6,7 @@ import '../../rep/api/post_holiday_api.dart';
 import '../../rep/json_model/holiday_post_model.dart';
 import '../../utility/all_string_const.dart';
 import '../../utility/storage.dart';
+import 'home_controller.dart';
 
 class HolidayRequestController extends GetxController{
 bool sendData=false;
@@ -41,11 +42,16 @@ print(data);
 
 
       HolidayPostModel data=value as HolidayPostModel;
-print(data.toJson());
 
+
+
+print("data    ${data.toJson()}" );
+Get.snackbar("",data.msg!);
       sendData=false;
       update();
-Get.back();
+      Get.find<HomeController>().getAllHoliday();
+Get.offNamed("Home");
+
     });
 
 
