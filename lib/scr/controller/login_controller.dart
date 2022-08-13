@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import '../../push_notifcation.dart';
 import '../../rep/api/login_api.dart';
 import '../../rep/json_model/login_model.dart';
 import '../../utility/all_string_const.dart';
@@ -36,6 +37,8 @@ String? nameValidator  (value) {
 
   logIng()async{
     Position? currentUserLoc=await getLoction( );
+    String  firebase_token =
+  await  PushNotificationManagger().init();
   if(formKey.currentState!.validate()){
     islogin=true;
     update();
@@ -44,12 +47,13 @@ String? nameValidator  (value) {
     a['job_num']  =username.text;
     a['password']  =password.text;
     a['language']  = 'ar';
-   a['lat']  = currentUserLoc?.longitude;
- a['long']  =currentUserLoc?.latitude;
+    a['firebase_token']  = firebase_token;
+ //   a['lat']  = currentUserLoc?.longitude;
+ // a['long']  =currentUserLoc?.latitude;
     AndroidDeviceInfo info=await _getId();
 
  a['device_id']=info.id.toString();
-
+print(a);
     logInAPI.post(a).then((value) async{
 print(value);
       LogInModel data=value as LogInModel;
@@ -67,7 +71,7 @@ print( "this is tokenn =>${data.toJson()}");
 
         await SecureStorage.writeSecureJsonData(
             key:AllStringConst.login ,value: data.toJson());
-        Get.toNamed("Home");
+        Get.offAllNamed("Home");
       }else{
 
         Get.snackbar("", data.msg!);

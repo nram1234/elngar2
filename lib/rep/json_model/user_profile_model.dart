@@ -34,7 +34,7 @@ class UserProfile {
   String? name;
   int? jobNum;
   String? image;
-  String? type;
+  int? type;
   String? startWorkDate;
   int? payroll;
 
