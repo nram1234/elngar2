@@ -1,6 +1,6 @@
 import 'package:elngar/rep/abstract_json_resource.dart';
 
-class AttendanceModel extends AbstractJsonResource{
+class AttendanceModel extends AbstractJsonResource {
   bool? status;
   String? errNum;
   String? msg;
@@ -32,11 +32,11 @@ class AttendanceModel extends AbstractJsonResource{
 class Attendances {
   int? employeeId;
   int? branchId;
+  double? lat;
+  double? lang;
   String? date;
   String? checkin;
-  int? lateTime;
-  int? checkout;
-  int? note;
+  int? status;
   String? updatedAt;
   String? createdAt;
   int? id;
@@ -44,11 +44,11 @@ class Attendances {
   Attendances(
       {this.employeeId,
         this.branchId,
+        this.lat,
+        this.lang,
         this.date,
         this.checkin,
-        this.lateTime,
-        this.checkout,
-        this.note,
+        this.status,
         this.updatedAt,
         this.createdAt,
         this.id});
@@ -56,11 +56,11 @@ class Attendances {
   Attendances.fromJson(Map<String, dynamic> json) {
     employeeId = json['employee_id'];
     branchId = json['branch_id'];
+    lat = json['lat'];
+    lang = json['lang'];
     date = json['date'];
     checkin = json['checkin'];
-    lateTime = json['late_time'];
-    checkout = json['checkout'];
-    note = json['note'];
+    status = json['status'];
     updatedAt = json['updated_at'];
     createdAt = json['created_at'];
     id = json['id'];
@@ -70,11 +70,11 @@ class Attendances {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['employee_id'] = this.employeeId;
     data['branch_id'] = this.branchId;
+    data['lat'] = this.lat;
+    data['lang'] = this.lang;
     data['date'] = this.date;
     data['checkin'] = this.checkin;
-    data['late_time'] = this.lateTime;
-    data['checkout'] = this.checkout;
-    data['note'] = this.note;
+    data['status'] = this.status;
     data['updated_at'] = this.updatedAt;
     data['created_at'] = this.createdAt;
     data['id'] = this.id;

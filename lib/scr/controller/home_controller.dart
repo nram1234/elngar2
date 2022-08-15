@@ -12,6 +12,7 @@ import '../../rep/api/all_holiday_api.dart';
 import '../../rep/api/all_videos_api.dart';
 import '../../rep/api/attendance_api.dart';
 import '../../rep/api/branchs_api.dart';
+import '../../rep/api/chechout_api.dart';
 import '../../rep/api/home_api.dart';
 import '../../rep/api/logout_api.dart';
 import '../../rep/api/upload_video_api.dart';
@@ -21,6 +22,7 @@ import '../../rep/json_model/all_holiday_model.dart';
 import '../../rep/json_model/all_videos_model.dart';
 import '../../rep/json_model/attendance_model.dart';
 import '../../rep/json_model/branchs_model.dart';
+import '../../rep/json_model/chechout_model.dart';
 import '../../rep/json_model/home_model.dart';
 import '../../rep/json_model/login_model.dart';
 import '../../rep/json_model/login_model.dart';
@@ -274,18 +276,23 @@ playAudio(String url)async{
       });
 
     });
-    if(dest<30){
+    if(dest<30 ){
     //  Get.snackbar("", "تم تسجيل الحضور");
       getAttendance=true;
       update();
       Map<String,dynamic>data={};
       data["language"]="ar";
+      data["branch_id"]=bestBranch!.id!;
+      data["lat"]=position?.latitude;
+      data["lang"]=position?.longitude;
 
       data["token"]= SecureStorage.readSecureData(AllStringConst.Token)!;
 
-    await  _attendanceAPI.post(data).then((value) {
+    await  _attendanceAPI.post(data).then((value) async{
 
         attendanceModel=value as AttendanceModel;
+
+        await SecureStorage.writeSecureData(key: AllStringConst.id,value:attendanceModel!.attendances!.id.toString());
       //  print(attendanceModel?.toJson());
 
    Get.snackbar("", attendanceModel!.msg!);
@@ -299,7 +306,18 @@ playAudio(String url)async{
     update();
 
   }
+  chechout(){
+    ChechoutAPI chechoutAPI=ChechoutAPI();
+    Map<String,dynamic>data={};
+    data["language"]="ar";
 
+    data["token"]= SecureStorage.readSecureData(AllStringConst.Token)!;
+    chechoutAPI.data=SecureStorage.readSecureData(AllStringConst.id)!;
+    chechoutAPI.post(data).then((value) {
+      ChechoutModel  chechoutModel=value as ChechoutModel;
+      Get.snackbar("", chechoutModel.msg??"");
+    });
+  }
 
   getBranchs(){
     _branchsAPI.data="token=${SecureStorage.readSecureData(AllStringConst.Token)}";

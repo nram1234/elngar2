@@ -15,6 +15,7 @@ class APIApp {
   static const String PostAttendanceUrl =baseUrl+"api/attendance";
   static const String getBranchsUrl =baseUrl+"api/branchs?";
   static const String getHomeUrl =baseUrl+"api/home?";
+  static const String postchechoutUrl =baseUrl+"api/chechout/";
 
 
 

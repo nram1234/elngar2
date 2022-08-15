@@ -61,7 +61,8 @@ class HomeScr1 extends StatelessWidget {
             Center(
                 child: GestureDetector(
                   onTap: () {
-
+                    Get.find<HomeController>()
+                        .chechout();
                   },
                   child: HomeWidget(
                     path: "assets/x.png",
