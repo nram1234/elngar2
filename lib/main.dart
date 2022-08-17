@@ -3,9 +3,9 @@ import 'package:elngar/scr/binding/home_binding.dart';
 import 'package:elngar/scr/binding/login_binding.dart';
 import 'package:elngar/scr/login.dart';
 import 'package:elngar/scr/welcome.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -19,8 +19,8 @@ import 'scr/home.dart';
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  Get.to(()=>Login());
-  print("Handling a background message: ${message.notification}");
+
+  //print("Handling a background message: ${message.notification.title}");
   print("Handling a background message: ${message.messageId}");
 }
 void main() async{
@@ -43,7 +43,7 @@ void main() async{
   await Firebase.initializeApp();
 
 
-  await FirebaseMessaging.instance;
+  //await FirebaseMessaging.instance;
   await GetStorage.init();
    // await FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(  MyApp());

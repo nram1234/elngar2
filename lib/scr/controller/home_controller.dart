@@ -276,7 +276,7 @@ playAudio(String url)async{
       });
 
     });
-    if(dest<30 ){
+    if(dest<300000000000){
     //  Get.snackbar("", "تم تسجيل الحضور");
       getAttendance=true;
       update();

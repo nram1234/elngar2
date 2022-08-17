@@ -39,6 +39,7 @@ String? nameValidator  (value) {
     Position? currentUserLoc=await getLoction( );
     String  firebase_token =
   await  PushNotificationManagger().init();
+    print("this is thefirebase_tokenfirebase_token =>${firebase_token} ");
   if(formKey.currentState!.validate()){
     islogin=true;
     update();
@@ -53,16 +54,16 @@ String? nameValidator  (value) {
     AndroidDeviceInfo info=await _getId();
 
  a['device_id']=info.id.toString();
-print(a);
+print("this aaa=>$a");
     logInAPI.post(a).then((value) async{
 print(value);
       LogInModel data=value as LogInModel;
-      print( "this is tokenn =>${data.user?.token}");
+     // print( "this is tokenn =>${data.user?.token}");
        print(data.status==true);
       print(data.status);
       if(data.status==true){
-print("000000000000000000000000000000000000000000000");
-print( "this is tokenn =>${data.toJson()}");
+//print("000000000000000000000000000000000000000000000");
+//print( "this is tokenn =>${data.toJson()}");
         await SecureStorage.writeSecureData(key: AllStringConst.Token,value: data.user!.token!);
 
         await SecureStorage.writeSecureData(key: AllStringConst.jobNum,value: data.user!.jobNum.toString());
