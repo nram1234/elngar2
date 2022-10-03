@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../utility/app_colors.dart';
 import '../controller/home_controller.dart';
+import '../controller/notification_controller.dart';
 
 class HomeScr3 extends StatelessWidget {
   @override
@@ -14,7 +16,10 @@ class HomeScr3 extends StatelessWidget {
       appBar: AppBar(
           centerTitle: true,
           title: Text("فيديو"),
-          actions: [Icon((Icons.notifications_outlined))]),
+          actions: [     GestureDetector(onTap: (){
+            Get.find<NotificationController>().getAllAotifications();
+            Get.toNamed("NotificationSCR");
+          },child: Icon(Icons.notifications_outlined, color: ColorApp.whiteColor)),]),
       body: GetBuilder<HomeController>(builder: (logic) {
         return logic.allVideosModel==null?Center(child: CircularProgressIndicator(),): ListView.builder(
             itemCount: logic.allVideosModel?.media?.length,

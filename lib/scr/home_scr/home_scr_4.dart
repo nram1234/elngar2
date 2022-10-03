@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controller/home_controller.dart';
+import '../controller/notification_controller.dart';
 import 'homeScr4/tap1.dart';
 import 'homeScr4/tap2.dart';
 
@@ -16,7 +17,10 @@ class HomeScr4 extends StatelessWidget {
         appBar: AppBar(
             centerTitle: true,
             title: Text("الملف الشخصي"),
-            actions: [Icon((Icons.notifications_outlined))]),
+            actions: [     GestureDetector(onTap: (){
+              Get.find<NotificationController>().getAllAotifications();
+              Get.toNamed("NotificationSCR");
+            },child: Icon(Icons.notifications_outlined, color: ColorApp.whiteColor)),]),
         body: GetBuilder<HomeController>(builder: (logic) {
           return Container( width: size.width,
             child: Column(

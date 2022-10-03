@@ -4,8 +4,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../utility/app_colors.dart';
 import '../controller/home_controller.dart';
 import 'package:file_picker/file_picker.dart';
+
+import '../controller/notification_controller.dart';
 class HomeScr2 extends StatelessWidget {
   const HomeScr2({Key? key}) : super(key: key);
 
@@ -15,7 +18,10 @@ class HomeScr2 extends StatelessWidget {
       appBar: AppBar(
           centerTitle: true,
           title: Text(" تعليمات صوتيه"),
-          actions: [Icon((Icons.notifications_outlined))]),
+          actions: [     GestureDetector(onTap: (){
+            Get.find<NotificationController>().getAllAotifications();
+            Get.toNamed("NotificationSCR");
+          },child: Icon(Icons.notifications_outlined, color: ColorApp.whiteColor)),]),
       body: GetBuilder<HomeController>(builder: (logic) {
         return logic.allAudiosModel == null
             ? Center(

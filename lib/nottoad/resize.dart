@@ -1,7 +1,7 @@
 import 'package:elngar/nottoad/resizable_widget_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:resizable_widget/resizable_widget.dart';
+
 
 //
 // class Res extends StatefulWidget {

@@ -15,6 +15,7 @@ import 'middleware/auth_middleware.dart';
 import 'scr/binding/holiday_equest_binding.dart';
 import 'scr/holidayRequest/holiday_request_scr.dart';
 import 'scr/home.dart';
+import 'scr/notification_scr.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -85,7 +86,12 @@ class MyApp extends StatelessWidget {
            GetPage(name: "/HolidayRequest", page: () =>
                HolidayRequestScr(),
                binding: HolidayRequestBinding())
+           ,
+           GetPage(name: "/NotificationSCR", page: () =>
+               NotificationSCR(),
+           //    binding: HolidayRequestBinding()
 
+           )
             ],);
   }
 }

@@ -258,25 +258,29 @@ playAudio(String url)async{
     update();
 
     Position? position=await   getLoction( );
-
+print("this my loction     ${position?.altitude}");
     double dest=9999999999;
     Branches? bestBranch=  branchsModel?.branches?[0];
     print("element.toJson()=>  ${branchsModel?.branches}");
 
     branchsModel?.branches?.forEach((element) {
+if(position!=null){
+  getdestance(pos: position!,pranchlat: element.latitude,pranchLong: element.longitude).then((value) {
 
-      getdestance(pos: position,pranchlat: element.latitude,pranchLong: element.longitude).then((value) {
 
+    if(dest>value){
+      dest=value;
+      bestBranch=element;
+    }
 
-        if(dest>value){
-          dest=value;
-          bestBranch=element;
-        }
+  });
+}else{
+  Get.snackbar("", "لم نتمكن من الحصول علي مكان المستخدم");
+}
 
-      });
 
     });
-    if(dest<300000000000){
+    if(dest<30 ){
     //  Get.snackbar("", "تم تسجيل الحضور");
       getAttendance=true;
       update();

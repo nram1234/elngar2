@@ -16,6 +16,7 @@ class APIApp {
   static const String getBranchsUrl =baseUrl+"api/branchs?";
   static const String getHomeUrl =baseUrl+"api/home?";
   static const String postchechoutUrl =baseUrl+"api/chechout/";
+  static const String allnotificationsUrl =baseUrl+"api/all_notifications?";
 
 
 

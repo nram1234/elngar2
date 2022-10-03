@@ -6,6 +6,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../utility/all_string_const.dart';
 import '../../utility/storage.dart';
 import '../controller/home_controller.dart';
+import '../controller/notification_controller.dart';
 import '../shareWidget/home_widget.dart';
 
 class HomeScr1 extends StatelessWidget {
@@ -23,7 +24,10 @@ class HomeScr1 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Icon(Icons.notifications_outlined, color: ColorApp.primaryColor),
+            GestureDetector(onTap: (){
+              Get.find<NotificationController>().getAllAotifications();
+               Get.toNamed("NotificationSCR");
+            },child: Icon(Icons.notifications_outlined, color: ColorApp.primaryColor)),
             Text("مرحبا",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             Padding(
