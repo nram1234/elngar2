@@ -251,7 +251,32 @@ playAudio(String url)async{
 
   }
 
+getUserAttendanceWithOutLoction( )async{
 
+
+  getAttendance=true;
+  update();
+  Map<String,dynamic>data={};
+  data["language"]="ar";
+  data["branch_id"]="";
+  data["lat"]= "";
+  data["lang"]= "";
+
+  data["token"]= SecureStorage.readSecureData(AllStringConst.Token)!;
+
+  await  _attendanceAPI.post(data).then((value) async{
+
+    attendanceModel=value as AttendanceModel;
+
+    await SecureStorage.writeSecureData(key: AllStringConst.id,value:attendanceModel!.attendances!.id.toString());
+    //  print(attendanceModel?.toJson());
+    getAttendance=false;
+    update();
+    Get.snackbar("", attendanceModel!.msg!);
+
+  });
+
+}
   //
   getUserLocAndDestBtwenbranchAndUser()async{
     getAttendance=true;
@@ -280,8 +305,10 @@ if(position!=null){
 
 
     });
-    if(dest<30 ){
+    if(dest<100 ){
     //  Get.snackbar("", "تم تسجيل الحضور");
+
+
       getAttendance=true;
       update();
       Map<String,dynamic>data={};

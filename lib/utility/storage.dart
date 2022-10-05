@@ -12,6 +12,17 @@ class SecureStorage {
     var writeData = await box.write( key,value);
     return writeData;
   }
+  static Future? writeSecureDataINT({required String key,required int value})  async {
+
+
+    var writeData = await box.write( key,value);
+    return writeData;
+  }
+  static  int? readSecureDataINT(String key)   {
+
+    var readData =   box.read( key);
+    return readData;
+  }
   static  Future? writeBoolData(String key, bool value)  async {
 
 

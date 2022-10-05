@@ -50,8 +50,15 @@ class HomeScr1 extends StatelessWidget {
             GetBuilder<HomeController>(builder: (logic) {
               return Center(
                   child:logic.getAttendance?SizedBox(height: 50,width: 50,child: CircularProgressIndicator()): GestureDetector(onTap: () {
-                    Get.find<HomeController>()
-                        .getUserLocAndDestBtwenbranchAndUser();
+                    if(SecureStorage.readSecureDataINT(AllStringConst.type)==4||SecureStorage.readSecureDataINT(AllStringConst.type)==2){
+
+                    logic.  getUserAttendanceWithOutLoction();
+                    }else{
+                      Get.find<HomeController>()
+                          .getUserLocAndDestBtwenbranchAndUser();
+                    }
+                    
+
                   },
                     child: HomeWidget(
                       titel: 'تسجيل حضور',

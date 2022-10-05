@@ -13,7 +13,7 @@ class NotificationSCR extends StatelessWidget {
         .size;
 
     return Scaffold(
-        appBar: AppBar(centerTitle: true, title: Text("تنبيهات"), actions: []),
+        appBar: AppBar( centerTitle: true, title: Text("تنبيهات" ), actions: []),
         body: GetBuilder<NotificationController>(builder: (logic) {
           return logic.allNotificationsModel == null ? Center(
             child: CircularProgressIndicator(),) : ListView.builder(
@@ -29,17 +29,18 @@ class NotificationSCR extends StatelessWidget {
                           decoration: BoxDecoration(
                               image: DecorationImage(
                                   image: AssetImage("assets/aler.png"))),
-                        ), Expanded(child: Column(children: [Text(
+                        ), SizedBox(width: 10,),
+                        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [Text(
                             logic.allNotificationsModel!.notifications![pos].title!)
-                        ,  Row(
+                    ,   SizedBox(height: 2,) ,  Row(
                           children: [
                             Container(
                                 height: 20,
                                 width: 20,
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
-                                        image: AssetImage("assets/aler.png"))),
-                              ),
+                                        image: AssetImage("assets/clock.png",),)),
+                              ),SizedBox(width: 8,),
                             Text(
                                 logic.allNotificationsModel!.notifications![pos].body!)  ],
                         ),

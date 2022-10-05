@@ -4,5 +4,6 @@ class AllStringConst{
   static const String jobNum="jobNum";
   static const String login="login";
   static const String id="id";
+  static const String type="type";
 
 }
