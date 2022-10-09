@@ -305,7 +305,7 @@ if(position!=null){
 
 
     });
-    if(dest<100 ){
+    if(dest>100 ){
     //  Get.snackbar("", "تم تسجيل الحضور");
 
 
