@@ -13,7 +13,7 @@ class APIApp {
   static const String postHolidayUrl =baseUrl+"api/holiday";
   static const String getUserProfileUrl =baseUrl+"api/user_profile?";
   static const String PostAttendanceUrl =baseUrl+"api/attendance";
-  static const String getBranchsUrl =baseUrl+"api/branchs?";
+  static const String getBranchsUrl =baseUrl+"api/all_branchs?";
   static const String getHomeUrl =baseUrl+"api/home?";
   static const String postchechoutUrl =baseUrl+"api/chechout/";
   static const String allnotificationsUrl =baseUrl+"api/all_notifications?";
