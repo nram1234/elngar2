@@ -48,6 +48,7 @@ class HomeController extends GetxController{
   HomeAPI _homeAPI=HomeAPI();
   HomeModel? homeModel;
   BranchsModel? branchsModel;
+  Branches? branches;
   AttendanceModel?attendanceModel;
   UserProfileModel? userProfileModel;
   AllHolidayModel? allHolidayModel;
@@ -278,64 +279,132 @@ getUserAttendanceWithOutLoction( )async{
 
 }
   //
+  double? dest;
   getUserLocAndDestBtwenbranchAndUser()async{
     getAttendance=true;
     update();
 
     Position? position=await   getLoction( );
-print("this my loction     ${position?.altitude}");
-    double dest=9999999999;
+//print("this my loction     ${position?.altitude}");
+
     Branches? bestBranch=  branchsModel?.branches?[0];
-    print("element.toJson()=>  ${branchsModel?.branches}");
+    // print("element.toJson()=>  ${branchsModel?.branches}");
+    dest=50000;
+for(int i=0;i< (branchsModel?.branches?.length??0);i++) {
 
-    branchsModel?.branches?.forEach((element) {
-if(position!=null){
-  getdestance(pos: position!,pranchlat: element.latitude,pranchLong: element.longitude).then((value) {
+  await getdestance(pos: position!,pranchlat:double.parse( branchsModel!.branches![i].latitude!),pranchLong: double.parse(branchsModel!.branches![i].longitude!)).then((value) async{
+  //  print("     ${value<4000} =======${value}========       ${branchsModel!.branches![i].latitude }  = ${branchsModel!.branches![i].longitude }  =====    ${ position.latitude }= ${ position.longitude } ");
+    print("    ${value<8680} =======${value}========      ${branchsModel!.branches![i].name }  ");
+   print("*"*100);
 
 
-    if(dest>value){
-      dest=value;
-      bestBranch=element;
-    }
+    if(value<50){
+
+        //  Get.snackbar("", "تم تسجيل الحضور");
+
+      branches=branchsModel!.branches![i];
+        getAttendance=true;
+        update();
+        Map<String,dynamic>data={};
+        data["language"]="ar";
+        data["branch_id"]= branchsModel!.branches![i].id!;
+        data["lat"]=position?.latitude;
+        data["lang"]=position?.longitude;
+
+        data["token"]= SecureStorage.readSecureData(AllStringConst.Token)!;
+
+        await  _attendanceAPI.post(data).then((value) async{
+print("44444444444444444444444444444object");
+          attendanceModel=value as AttendanceModel;
+
+          await SecureStorage.writeSecureData(key: AllStringConst.id,value:attendanceModel!.attendances!.id.toString());
+          //  print(attendanceModel?.toJson());
+
+          Get.snackbar("", "${attendanceModel!.msg! } الفرع${branchsModel!.branches![i]!.name}  ");
+
+        });
+
+      }
+    else{
+
+       // Get.snackbar("", "تحتاج الي الدخول داخل الفرع اقرب فرع لك هو ${bestBranch?.name}");
+
+     //   Get.snackbar("", " تواجد بجوار اقرب فرع لك");
+      }
+
+
+
+    // if(dest!>value){
+    //  print("--------------------------------------------------------------------");
+    //   dest=value;
+    //   bestBranch=branchsModel!.branches![i];
+    //   print("the   bestBranch is   ${bestBranch!.name}    $dest ");
+    // }
+
+
+
 
   });
-}else{
-  Get.snackbar("", "لم نتمكن من الحصول علي مكان المستخدم");
+
+
 }
+//     branchsModel?.branches?.forEach((element) async{
+// if(position!=null){
+//   dest=8600.0;
+//  await getdestance(pos: position!,pranchlat: element.latitude,pranchLong: element.longitude).then((value) {
+//
+// print("IS dest>value    ${dest!>value}    $dest   $value    ${element.name}");
+//     if(dest!>value){
+//        dest=value;
+//       bestBranch=element;
+//     }
+//
+//   });
+// }else{
+//   Get.snackbar("", "لم نتمكن من الحصول علي مكان المستخدم");
+// }
+//
+//
+//     });
 
 
-    });
-    if(dest>100 ){
-    //  Get.snackbar("", "تم تسجيل الحضور");
-
-
-      getAttendance=true;
-      update();
-      Map<String,dynamic>data={};
-      data["language"]="ar";
-      data["branch_id"]=bestBranch!.id!;
-      data["lat"]=position?.latitude;
-      data["lang"]=position?.longitude;
-
-      data["token"]= SecureStorage.readSecureData(AllStringConst.Token)!;
-
-    await  _attendanceAPI.post(data).then((value) async{
-
-        attendanceModel=value as AttendanceModel;
-
-        await SecureStorage.writeSecureData(key: AllStringConst.id,value:attendanceModel!.attendances!.id.toString());
-      //  print(attendanceModel?.toJson());
-
-   Get.snackbar("", attendanceModel!.msg!);
-
-      });
-
-    }else{
-      Get.snackbar("", "تحتاج الي الدخول داخل الفرع اقرب فرع لك هو ${bestBranch?.name}");
-    }
+    //
+    // print("3");
+    // print("the          $dest");
+    // print("the          ${dest!.toInt()<8600.0}");
+   //  if(dest!.toInt()<100.0 ){
+   //  //  Get.snackbar("", "تم تسجيل الحضور");
+   //
+   //
+   //    getAttendance=true;
+   //    update();
+   //    Map<String,dynamic>data={};
+   //    data["language"]="ar";
+   //    data["branch_id"]=bestBranch!.id!;
+   //    data["lat"]=position?.latitude;
+   //    data["lang"]=position?.longitude;
+   //
+   //    data["token"]= SecureStorage.readSecureData(AllStringConst.Token)!;
+   //
+   //  await  _attendanceAPI.post(data).then((value) async{
+   //
+   //      attendanceModel=value as AttendanceModel;
+   //
+   //      await SecureStorage.writeSecureData(key: AllStringConst.id,value:attendanceModel!.attendances!.id.toString());
+   //    //  print(attendanceModel?.toJson());
+   //
+   // Get.snackbar("", "${attendanceModel!.msg! } الفرع${bestBranch!.name}  ");
+   //
+   //    });
+   //
+   //  }else{
+   //    print("destdest       $dest    ");
+   //    Get.snackbar("", "تحتاج الي الدخول داخل الفرع اقرب فرع لك هو ${bestBranch?.name}");
+   //  }
+   //  getAttendance=false;
+   //  update();
     getAttendance=false;
     update();
-
   }
   chechout(){
     ChechoutAPI chechoutAPI=ChechoutAPI();

@@ -18,12 +18,15 @@ class Login extends GetView<LogingController> {
           child: Column(children: [
             Expanded(flex: 4, child: Row(
               children: [
-                Expanded(child: Image.asset("assets/Rectangle.png")), Expanded(child: Text(" تسجيل الدخول",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),)),
+                Expanded(child: Image.asset("assets/Rectangle.png")),
+                Expanded(child: Text(" تسجيل الدخول", style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 40),)),
               ],
             )),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextFormField(validator: controller.nameValidator,controller:controller.username,
+              child: TextFormField(validator: controller.nameValidator,
+                controller: controller.username,
                 decoration: InputDecoration(
                   hintText: "ادخل رقم الموظف",
                   errorBorder: OutlineInputBorder(
@@ -37,22 +40,31 @@ class Login extends GetView<LogingController> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextFormField(obscureText: true,validator: controller.passwordValidator,controller: controller.password,
-                decoration: InputDecoration(
-                  hintText: "********",
-                  errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  prefixIcon: Icon(Icons.remove_red_eye_rounded),
-                  focusedBorder:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-                  enabledBorder:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-                ),
-              ),
+              child: GetBuilder<LogingController>(builder: (logic) {
+                return TextFormField(obscureText:logic.isSc  ,
+                  validator: controller.passwordValidator,
+                  controller: controller.password,
+                  decoration: InputDecoration(
+                    hintText: "********",
+                    errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    prefixIcon: GestureDetector(onTap: (){
+                      logic.updateisSc(logic.isSc= !logic.isSc);
+                    },child: Icon(logic.isSc?Icons.visibility_off:Icons.visibility)),
+                    focusedBorder:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                    enabledBorder:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                  ),
+                );
+              }),
             ),
             GetBuilder<LogingController>(
                 builder: (logic) {
-                  return logic.islogin?CircularProgressIndicator():CustomButton(buttonColor: ColorApp.primaryColor,
+                  return logic.islogin
+                      ? CircularProgressIndicator()
+                      : CustomButton(
+                    buttonColor: ColorApp.primaryColor,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     title: 'دخول',

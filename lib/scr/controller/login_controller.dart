@@ -19,7 +19,12 @@ class LogingController extends GetxController{
   final formKey = GlobalKey<FormState>();
 TextEditingController username=TextEditingController();
 TextEditingController password=TextEditingController();
+bool isSc=true;
 
+updateisSc(bool v){
+  isSc=v;
+  update();
+}
 bool islogin=false;
 String? nameValidator  (value) {
   if (value == null || value.isEmpty) {

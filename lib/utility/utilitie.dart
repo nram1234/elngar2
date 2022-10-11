@@ -97,16 +97,15 @@ Future<Position> _determinePosition() async {
 
       });
 }
-Future <double>getdestance({required Position pos,required pranchLong,required pranchlat}) async {
+Future <int>getdestance({required Position pos,required double  pranchLong,required double pranchlat}) async {
 
   Position? currentUserLoc;
  // currentUserLoc =await _determinePosition(); //
-  double destans=Geolocator.distanceBetween(pos.latitude, pos.longitude,double.tryParse(pranchlat)??0,  double.tryParse(pranchLong)??0);
+  double destans=await Geolocator.distanceBetween(pos.latitude, pos.longitude, pranchlat,  pranchLong );
   //await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  print(pos.latitude);
-  print(pos.longitude);
-  print(destans);
-  return destans;
+
+ // print("destansdestansdestansdestans       ${destans.toInt()}             ");
+  return destans.toInt();
 }
 
 Future <Position?>getLoction( ) async {
