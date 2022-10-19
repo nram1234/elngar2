@@ -42,52 +42,54 @@ String? nameValidator  (value) {
 
   logIng()async{
     Position? currentUserLoc=await getLoction( );
-    String  firebase_token =
-  await  PushNotificationManagger().init();
-    print("this is thefirebase_tokenfirebase_token =>${firebase_token} ");
-  if(formKey.currentState!.validate()){
-    islogin=true;
-    update();
-    LogInAPI logInAPI=LogInAPI();
-    Map <String,dynamic>a={};
-    a['job_num']  =username.text;
-    a['password']  =password.text;
-    a['language']  = 'ar';
-    a['firebase_token']  = firebase_token;
- //   a['lat']  = currentUserLoc?.longitude;
- // a['long']  =currentUserLoc?.latitude;
-    AndroidDeviceInfo info=await _getId();
+     PushNotificationManagger().init().then((value)async {
 
- a['device_id']=info.id.toString();
-print("this aaa=>$a");
-    logInAPI.post(a).then((value) async{
-print(value);
-      LogInModel data=value as LogInModel;
-     // print( "this is tokenn =>${data.user?.token}");
-       print(data.status==true);
-      print(data.status);
-      if(data.status==true){
+    print("this is thefirebase_tokenfirebase_token =>${value} ");
+    if(formKey.currentState!.validate()){
+      islogin=true;
+      update();
+      LogInAPI logInAPI=LogInAPI();
+      Map <String,dynamic>a={};
+      a['job_num']  =username.text;
+      a['password']  =password.text;
+      a['language']  = 'ar';
+      a['firebase_token']  = value;
+      //   a['lat']  = currentUserLoc?.longitude;
+      // a['long']  =currentUserLoc?.latitude;
+      AndroidDeviceInfo info=await _getId();
+
+      a['device_id']=info.id.toString();
+      print("this aaa=>$a");
+      logInAPI.post(a).then((value) async{
+        print(value);
+        LogInModel data=value as LogInModel;
+        // print( "this is tokenn =>${data.user?.token}");
+        print(data.status==true);
+        print(data.status);
+        if(data.status==true){
 //print("000000000000000000000000000000000000000000000");
 //print( "this is tokenn =>${data.toJson()}");
-        await SecureStorage.writeSecureData(key: AllStringConst.Token,value: data.user!.token!);
+          await SecureStorage.writeSecureData(key: AllStringConst.Token,value: data.user!.token!);
 
-        await SecureStorage.writeSecureData(key: AllStringConst.jobNum,value: data.user!.jobNum.toString());
+          await SecureStorage.writeSecureData(key: AllStringConst.jobNum,value: data.user!.jobNum.toString());
 
-        await SecureStorage.writeSecureData(key: AllStringConst.UserName,value: data.user!.name!);
-        await SecureStorage.writeSecureDataINT(key: AllStringConst.type,value: data.user!.type!);
-        await SecureStorage.writeSecureJsonData(
-            key:AllStringConst.login ,value: data.toJson());
-        Get.offAllNamed("Home");
-      }else{
+          await SecureStorage.writeSecureData(key: AllStringConst.UserName,value: data.user!.name!);
+          await SecureStorage.writeSecureDataINT(key: AllStringConst.type,value: data.user!.type!);
+          await SecureStorage.writeSecureJsonData(
+              key:AllStringConst.login ,value: data.toJson());
+          Get.offAllNamed("Home");
+        }else{
 
-        Get.snackbar("", data.msg!);
-      }
-      islogin=false;
-update();
+          Get.snackbar("", data.msg!);
+        }
+        islogin=false;
+        update();
 
-    }) ;
+      }) ;
 
-  }
+    }
+  });
+
   }
 
 

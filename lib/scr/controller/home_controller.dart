@@ -298,7 +298,7 @@ for(int i=0;i< (branchsModel?.branches?.length??0);i++) {
    print("*"*100);
 
 
-    if(value<50){
+    if(value<15){
 
         //  Get.snackbar("", "تم تسجيل الحضور");
 
@@ -412,7 +412,8 @@ print("44444444444444444444444444444object");
     data["language"]="ar";
 
     data["token"]= SecureStorage.readSecureData(AllStringConst.Token)!;
-    chechoutAPI.data=SecureStorage.readSecureData(AllStringConst.id)!;
+    data["attendance_id"]= SecureStorage.readSecureData(AllStringConst.id)!;
+  //  chechoutAPI.data=;
     chechoutAPI.post(data).then((value) {
       ChechoutModel  chechoutModel=value as ChechoutModel;
       Get.snackbar("", chechoutModel.msg??"");

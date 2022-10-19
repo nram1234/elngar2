@@ -8,7 +8,7 @@ class ChechoutAPI extends ApiManager{
  String data="";
   @override
   String apiUrl() {
-return APIApp.postchechoutUrl+data;
+return APIApp.postchechoutUrl;
   }
 
   @override
