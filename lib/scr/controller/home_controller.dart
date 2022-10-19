@@ -406,7 +406,11 @@ print("44444444444444444444444444444object");
     getAttendance=false;
     update();
   }
+
+  bool ischechout=false;
   chechout(){
+    ischechout=true;
+    update();
     ChechoutAPI chechoutAPI=ChechoutAPI();
     Map<String,dynamic>data={};
     data["language"]="ar";
@@ -417,7 +421,10 @@ print("44444444444444444444444444444object");
     chechoutAPI.post(data).then((value) {
       ChechoutModel  chechoutModel=value as ChechoutModel;
       Get.snackbar("", chechoutModel.msg??"");
-    });
+
+
+      ischechout=false;
+      update(); });
   }
 
   getBranchs(){

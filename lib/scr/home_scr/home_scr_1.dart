@@ -24,10 +24,12 @@ class HomeScr1 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            GestureDetector(onTap: (){
+            GestureDetector(onTap: () {
               Get.find<NotificationController>().getAllAotifications();
-               Get.toNamed("NotificationSCR");
-            },child: Icon(Icons.notifications_outlined, color: ColorApp.primaryColor)),
+              Get.toNamed("NotificationSCR");
+            },
+                child: Icon(Icons.notifications_outlined,
+                    color: ColorApp.primaryColor)),
             Text("مرحبا",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             Padding(
@@ -49,16 +51,18 @@ class HomeScr1 extends StatelessWidget {
             ),
             GetBuilder<HomeController>(builder: (logic) {
               return Center(
-                  child:logic.getAttendance?SizedBox(height: 50,width: 50,child: CircularProgressIndicator()): GestureDetector(onTap: () {
-                    if(SecureStorage.readSecureDataINT(AllStringConst.type)==4||SecureStorage.readSecureDataINT(AllStringConst.type)==2){
-
-                    logic.  getUserAttendanceWithOutLoction();
-                    }else{
+                  child: logic.getAttendance
+                      ? SizedBox(
+                      height: 50, width: 50, child: CircularProgressIndicator())
+                      : GestureDetector(onTap: () {
+                    if (SecureStorage.readSecureDataINT(AllStringConst.type) ==
+                        4 || SecureStorage.readSecureDataINT(AllStringConst
+                        .type) == 2) {
+                      logic.getUserAttendanceWithOutLoction();
+                    } else {
                       Get.find<HomeController>()
                           .getUserLocAndDestBtwenbranchAndUser();
                     }
-                    
-
                   },
                     child: HomeWidget(
                       titel: 'تسجيل حضور',
@@ -70,19 +74,21 @@ class HomeScr1 extends StatelessWidget {
                   ));
             }),
             Center(
-                child: GestureDetector(
-                  onTap: () {
-                    Get.find<HomeController>()
-                        .chechout();
-                  },
-                  child: HomeWidget(
-                    path: "assets/x.png",
-                    titel: 'تسجيل مغادرة',
-                    height: 60,
-                    color:  ColorApp.greenColor.withOpacity(.2),
-                    width: size.width * .9,
-                  ),
-                )),
+                child:   GetBuilder<HomeController>(builder: (logic) {
+                  return logic.  ischechout?Center(child: CircularProgressIndicator(),): GestureDetector(
+                    onTap: () {
+                      Get.find<HomeController>()
+                          .chechout();
+                    },
+                    child: HomeWidget(
+                      path: "assets/x.png",
+                      titel: 'تسجيل مغادرة',
+                      height: 60,
+                      color: ColorApp.greenColor.withOpacity(.2),
+                      width: size.width * .9,
+                    ),
+                  );
+                })),
             Center(
                 child: GestureDetector(
                   onTap: () {
@@ -142,10 +148,12 @@ class HomeScr1 extends StatelessWidget {
                                 radius: 60.0,
                                 lineWidth: 20,
                                 backgroundColor: ColorApp.whiteColor,
-                                percent: logic.homeModel!.home!.attendance! /30,
+                                percent: logic.homeModel!.home!.attendance! /
+                                    30,
                                 animation: true,
                                 circularStrokeCap: CircularStrokeCap.round,
-                                center: Text(logic.homeModel!.home!.attendance.toString(),
+                                center: Text(logic.homeModel!.home!.attendance
+                                    .toString(),
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: ColorApp.greenColor,
@@ -189,12 +197,11 @@ class HomeScr1 extends StatelessWidget {
                                 radius: 60.0,
                                 lineWidth: 20,
                                 backgroundColor: ColorApp.whiteColor,
-                                percent:  logic.homeModel!.home!.absence! /30,
+                                percent: logic.homeModel!.home!.absence! / 30,
                                 animation: true,
                                 circularStrokeCap: CircularStrokeCap.round,
                                 center: Text(
                                     logic.homeModel!.home!.absence
-
 
 
                                         .toString(),
