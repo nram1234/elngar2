@@ -1,4 +1,4 @@
-import 'package:elngar/rep/abstract_json_resource.dart';
+import '../abstract_json_resource.dart';
 
 class HomeModel extends AbstractJsonResource{
   bool? status;
@@ -32,14 +32,24 @@ class Home {
   String? articles;
   int? attendance;
   int? absence;
+  int? branchId;
+  String? branchName;
 
-  Home({this.user, this.articles, this.attendance, this.absence});
+  Home(
+      {this.user,
+        this.articles,
+        this.attendance,
+        this.absence,
+        this.branchId,
+        this.branchName});
 
   Home.fromJson(Map<String, dynamic> json) {
     user = json['user'];
     articles = json['articles'];
     attendance = json['attendance'];
     absence = json['Absence'];
+    branchId = json['branch_id'];
+    branchName = json['branch_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +58,8 @@ class Home {
     data['articles'] = this.articles;
     data['attendance'] = this.attendance;
     data['Absence'] = this.absence;
+    data['branch_id'] = this.branchId;
+    data['branch_name'] = this.branchName;
     return data;
   }
 }

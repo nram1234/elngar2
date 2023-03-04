@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 
 /// Determine the current position of the device.
 ///
@@ -85,7 +86,7 @@ Future<Position> _determinePosition() async {
   // continue accessing the position of the device.
   final LocationSettings locationSettings = LocationSettings(
     accuracy: LocationAccuracy.high,
-    distanceFilter: 100,
+    distanceFilter: 1,
   );
   StreamSubscription<Position> positionStream = Geolocator.getPositionStream(locationSettings: locationSettings).listen(
           (Position? position) async{
@@ -119,7 +120,13 @@ Future <Position?>getLoction( ) async {
     permission = await Geolocator.requestPermission();
 
   }else{
-    currentUserLoc=  await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+   if( await Geolocator.isLocationServiceEnabled()){
+     currentUserLoc=  await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+   }else{
+     Get.snackbar("خطاء", "يجب تشغيل خدمة تحديد المواقع");
+   }
+
+
   }
 
 

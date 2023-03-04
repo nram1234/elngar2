@@ -44,7 +44,7 @@ abstract class ApiManager {
     return json;
   }
   /// POST DATA TO SERVER
-  Future<AbstractJsonResource?> post(Map dataToPost) async {
+  Future<AbstractJsonResource?> post(  dataToPost) async {
     AbstractJsonResource? jsonList;
     var data;
 

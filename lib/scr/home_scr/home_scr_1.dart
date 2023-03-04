@@ -55,14 +55,14 @@ class HomeScr1 extends StatelessWidget {
                       ? SizedBox(
                       height: 50, width: 50, child: CircularProgressIndicator())
                       : GestureDetector(onTap: () {
-                    if (SecureStorage.readSecureDataINT(AllStringConst.type) ==
-                        4 || SecureStorage.readSecureDataINT(AllStringConst
-                        .type) == 2) {
-                      logic.getUserAttendanceWithOutLoction();
-                    } else {
+                    // if (SecureStorage.readSecureDataINT(AllStringConst.type) ==
+                    //     4 || SecureStorage.readSecureDataINT(AllStringConst
+                    //     .type) == 2) {
+                    //   logic.getUserAttendanceWithOutLoction();
+                    // } else {
                       Get.find<HomeController>()
                           .getUserLocAndDestBtwenbranchAndUser();
-                    }
+                    // }
                   },
                     child: HomeWidget(
                       titel: 'تسجيل حضور',

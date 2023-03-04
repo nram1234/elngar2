@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:video_player/video_player.dart';
 import 'package:dio/dio.dart' as di;
@@ -83,6 +84,8 @@ getHome(){
   _homeAPI.data="token=${SecureStorage.readSecureData(AllStringConst.Token)}";
   _homeAPI.getData().then((value) {
     homeModel =value as HomeModel;
+    print("thissssssssssssssssssssss${homeModel!.home!.branchId}");
+    SecureStorage.writeSecureData(key: AllStringConst.branch_id, value: homeModel!.home!.branchId!.toString());
 update();
 
   });
@@ -209,7 +212,7 @@ playAudio(String url)async{
   
   uploadideo(File file)async{
   print("upload");
-    var request = http.MultipartRequest('POST', Uri.parse('https://safsooofa.com/api/uploadVideo'));
+    var request = http.MultipartRequest('POST', Uri.parse('https://decorewood-eg.com/api/uploadVideo'));
     request.fields.addAll({
       'language': 'ar',
       'token':  SecureStorage.readSecureData(AllStringConst.Token)!
@@ -232,7 +235,7 @@ playAudio(String url)async{
 
   uploadAudio(File file)async{
     print("upload ddddddd");
-    var request = http.MultipartRequest('POST', Uri.parse('https://safsooofa.com/api/uploadAudio'));
+    var request = http.MultipartRequest('POST', Uri.parse('https://decorewood-eg.com/api/uploadAudio'));
     request.fields.addAll({
       'language': 'en',
       'token':   SecureStorage.readSecureData(AllStringConst.Token)!
@@ -281,73 +284,117 @@ getUserAttendanceWithOutLoction( )async{
   //
   double? dest;
   getUserLocAndDestBtwenbranchAndUser()async{
-    getAttendance=true;
-    update();
+    final ImagePicker _picker = ImagePicker();
+    final XFile? photo = await _picker.pickImage(source: ImageSource.camera,imageQuality: 40,maxHeight: 200,maxWidth: 200);
+    if(photo!=null){
 
-    Position? position=await   getLoction( );
-//print("this my loction     ${position?.altitude}");
+      getAttendance=true;
+      update();
 
+      Position? position=await   getLoction( );
+
+ print("this my loction     ${position?.altitude}");
+
+  if(position!=null){
     Branches? bestBranch=  branchsModel?.branches?[0];
-    // print("element.toJson()=>  ${branchsModel?.branches}");
+     print("element.toJson()=>  ${branchsModel?.branches}");
     dest=50000;
-for(int i=0;i< (branchsModel?.branches?.length??0);i++) {
-
-  await getdestance(pos: position!,pranchlat:double.parse( branchsModel!.branches![i].latitude!),pranchLong: double.parse(branchsModel!.branches![i].longitude!)).then((value) async{
-  //  print("     ${value<4000} =======${value}========       ${branchsModel!.branches![i].latitude }  = ${branchsModel!.branches![i].longitude }  =====    ${ position.latitude }= ${ position.longitude } ");
-    print("    ${value<8680} =======${value}========      ${branchsModel!.branches![i].name }  ");
-   print("*"*100);
-
-
-    if(value<15){
-
-        //  Get.snackbar("", "تم تسجيل الحضور");
-
-      branches=branchsModel!.branches![i];
-        getAttendance=true;
-        update();
-        Map<String,dynamic>data={};
-        data["language"]="ar";
-        data["branch_id"]= branchsModel!.branches![i].id!;
-        data["lat"]=position?.latitude;
-        data["lang"]=position?.longitude;
-
-        data["token"]= SecureStorage.readSecureData(AllStringConst.Token)!;
-
-        await  _attendanceAPI.post(data).then((value) async{
-print("44444444444444444444444444444object");
-          attendanceModel=value as AttendanceModel;
-
-          await SecureStorage.writeSecureData(key: AllStringConst.id,value:attendanceModel!.attendances!.id.toString());
-          //  print(attendanceModel?.toJson());
-
-          Get.snackbar("", "${attendanceModel!.msg! } الفرع${branchsModel!.branches![i]!.name}  ");
-
-        });
-
-      }
-    else{
-
-       // Get.snackbar("", "تحتاج الي الدخول داخل الفرع اقرب فرع لك هو ${bestBranch?.name}");
-
-     //   Get.snackbar("", " تواجد بجوار اقرب فرع لك");
-      }
+     for(int i=0;i< (branchsModel?.branches?.length??0);i++) {
+       print("this id bestBranch ${branchsModel?.branches?[i].id}");
+       if (branchsModel!.branches![i].id==int.parse(SecureStorage.readSecureData(AllStringConst.branch_id)!)) {
+         bestBranch=branchsModel!.branches![i];
+         print("this iss bestBranch ${bestBranch.toJson()}");
+         await getdestance(pos: position!,
+             pranchlat: double.parse(bestBranch!.latitude!),
+             pranchLong: double.parse(bestBranch!.longitude!)).then((value) async {
+           //  print("     ${value<4000} =======${value}========       ${branchsModel!.branches![i].latitude }  = ${branchsModel!.branches![i].longitude }  =====    ${ position.latitude }= ${ position.longitude } ");
 
 
+           if (true) {
+             //  Get.snackbar("", "تم تسجيل الحضور");
 
-    // if(dest!>value){
-    //  print("--------------------------------------------------------------------");
-    //   dest=value;
-    //   bestBranch=branchsModel!.branches![i];
-    //   print("the   bestBranch is   ${bestBranch!.name}    $dest ");
-    // }
+             //    branches=branchsModel!.branches![i];
+             getAttendance = true;
+             update();
 
-
-
-
-  });
+             var formData = di.FormData();
 
 
-}
+             formData.files.addAll([
+               MapEntry("img",
+                   await di.MultipartFile.fromFile(photo.path)),
+             ]);
+
+             formData.fields.add(
+                 MapEntry("language", "ar"));
+             // formData.fields.add(
+             //     MapEntry("branch_id",branchsModel!.branches![i].id!.toString()));
+             formData.fields.add(
+                 MapEntry("branch_id", "1"));
+             formData.fields.add(
+                 MapEntry("lat", bestBranch?.latitude.toString() ?? "22"));
+             formData.fields.add(
+                 MapEntry("lang", bestBranch?.longitude.toString() ?? "11"));
+             formData.fields.add(
+                 MapEntry("token",
+                     SecureStorage.readSecureData(AllStringConst.Token)!
+                         .toString()));
+
+
+             await _attendanceAPI.post(formData).then((value) async {
+               print("44444444444444444444444444444object");
+               attendanceModel = value as AttendanceModel;
+
+               await SecureStorage.writeSecureData(key: AllStringConst.id,
+                   value: attendanceModel?.attendances?.id.toString()??1.toString());
+               //  print(attendanceModel?.toJson());
+
+                  Get.snackbar("", "${attendanceModel!.msg! } الفرع${branchsModel!.branches![i]!.name}  ");
+
+               getAttendance = false;
+               update();
+             });
+           }
+           else {
+             getAttendance = false;
+             update();
+             // Get.snackbar("", "تحتاج الي الدخول داخل الفرع اقرب فرع لك هو ${bestBranch?.name}");
+
+               Get.snackbar("", " تواجد بجوار اقرب فرع لك");
+           }
+
+           getAttendance = false;
+           update();
+
+           // if(dest!>value){
+           //  print("--------------------------------------------------------------------");
+           //   dest=value;
+           //   bestBranch=branchsModel!.branches![i];
+           //   print("the   bestBranch is   ${bestBranch!.name}    $dest ");
+           // }
+
+
+         });
+       }
+       // else {
+       //
+       //   Get.snackbar("خطاء", "خطاء برجا غلق التطبيق و الدخول مرة اخري");
+       //   getAttendance = false;
+       //   update();
+       // }
+     }
+
+    }else{
+    getAttendance = false;
+    update();
+    Get.snackbar("خطاء", "يجب تشغيل خدمة تحديد المواقع");
+
+  }
+       // branchsModel!.branches![i].latitude!   //branchsModel!.branches![i].longitude!
+
+     // }
+    }
+
 //     branchsModel?.branches?.forEach((element) async{
 // if(position!=null){
 //   dest=8600.0;
@@ -403,8 +450,7 @@ print("44444444444444444444444444444object");
    //  }
    //  getAttendance=false;
    //  update();
-    getAttendance=false;
-    update();
+
   }
 
   bool ischechout=false;
