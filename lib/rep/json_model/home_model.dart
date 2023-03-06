@@ -34,6 +34,9 @@ class Home {
   int? absence;
   int? branchId;
   String? branchName;
+  bool? loginBranch;
+  String? latBranch;
+  String? longBranch;
 
   Home(
       {this.user,
@@ -41,7 +44,10 @@ class Home {
         this.attendance,
         this.absence,
         this.branchId,
-        this.branchName});
+        this.branchName,
+        this.loginBranch,
+        this.latBranch,
+        this.longBranch});
 
   Home.fromJson(Map<String, dynamic> json) {
     user = json['user'];
@@ -50,6 +56,9 @@ class Home {
     absence = json['Absence'];
     branchId = json['branch_id'];
     branchName = json['branch_name'];
+    loginBranch = json['login_branch'];
+    latBranch = json['lat_branch'];
+    longBranch = json['long_branch'];
   }
 
   Map<String, dynamic> toJson() {
@@ -60,6 +69,9 @@ class Home {
     data['Absence'] = this.absence;
     data['branch_id'] = this.branchId;
     data['branch_name'] = this.branchName;
+    data['login_branch'] = this.loginBranch;
+    data['lat_branch'] = this.latBranch;
+    data['long_branch'] = this.longBranch;
     return data;
   }
 }

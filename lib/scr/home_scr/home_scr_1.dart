@@ -24,10 +24,11 @@ class HomeScr1 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            GestureDetector(onTap: () {
-              Get.find<NotificationController>().getAllAotifications();
-              Get.toNamed("NotificationSCR");
-            },
+            GestureDetector(
+                onTap: () {
+                  Get.find<NotificationController>().getAllAotifications();
+                  Get.toNamed("NotificationSCR");
+                },
                 child: Icon(Icons.notifications_outlined,
                     color: ColorApp.primaryColor)),
             Text("مرحبا",
@@ -42,8 +43,9 @@ class HomeScr1 extends StatelessWidget {
                           fontSize: 14,
                           fontWeight: FontWeight.normal,
                           color: ColorApp.greenColor)),
-                  Text(SecureStorage.readSecureData(AllStringConst.UserName) ??
-                      "",
+                  Text(
+                      SecureStorage.readSecureData(AllStringConst.UserName) ??
+                          "",
                       style:
                       TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 ],
@@ -53,17 +55,20 @@ class HomeScr1 extends StatelessWidget {
               return Center(
                   child: logic.getAttendance
                       ? SizedBox(
-                      height: 50, width: 50, child: CircularProgressIndicator())
-                      : GestureDetector(onTap: () {
-                    // if (SecureStorage.readSecureDataINT(AllStringConst.type) ==
-                    //     4 || SecureStorage.readSecureDataINT(AllStringConst
-                    //     .type) == 2) {
-                    //   logic.getUserAttendanceWithOutLoction();
-                    // } else {
+                      height: 50,
+                      width: 50,
+                      child: CircularProgressIndicator())
+                      : GestureDetector(
+                    onTap: () {
+                      // if (SecureStorage.readSecureDataINT(AllStringConst.type) ==
+                      //     4 || SecureStorage.readSecureDataINT(AllStringConst
+                      //     .type) == 2) {
+                      //   logic.getUserAttendanceWithOutLoction();
+                      // } else {
                       Get.find<HomeController>()
                           .getUserLocAndDestBtwenbranchAndUser();
-                    // }
-                  },
+                      // }
+                    },
                     child: HomeWidget(
                       titel: 'تسجيل حضور',
                       height: 60,
@@ -73,22 +78,24 @@ class HomeScr1 extends StatelessWidget {
                     ),
                   ));
             }),
-            Center(
-                child:   GetBuilder<HomeController>(builder: (logic) {
-                  return logic.  ischechout?Center(child: CircularProgressIndicator(),): GestureDetector(
-                    onTap: () {
-                      Get.find<HomeController>()
-                          .chechout();
-                    },
-                    child: HomeWidget(
-                      path: "assets/x.png",
-                      titel: 'تسجيل مغادرة',
-                      height: 60,
-                      color: ColorApp.greenColor.withOpacity(.2),
-                      width: size.width * .9,
-                    ),
-                  );
-                })),
+            Center(child: GetBuilder<HomeController>(builder: (logic) {
+              return logic.ischechout
+                  ? Center(
+                child: CircularProgressIndicator(),
+              )
+                  : GestureDetector(
+                onTap: () {
+                  Get.find<HomeController>().chechout();
+                },
+                child: HomeWidget(
+                  path: "assets/x.png",
+                  titel: 'تسجيل مغادرة',
+                  height: 60,
+                  color: ColorApp.greenColor.withOpacity(.2),
+                  width: size.width * .9,
+                ),
+              );
+            })),
             Center(
                 child: GestureDetector(
                   onTap: () {
@@ -103,9 +110,10 @@ class HomeScr1 extends StatelessWidget {
                   ),
                 )),
             Center(
-                child: GestureDetector(onTap: () {
-                  Get.toNamed("HolidayRequest");
-                },
+                child: GestureDetector(
+                  onTap: () {
+                    Get.toNamed("HolidayRequest");
+                  },
                   child: HomeWidget(
                     path: "assets/pu.png",
                     titel: 'انشاء طلب اجازة',
@@ -119,9 +127,12 @@ class HomeScr1 extends StatelessWidget {
               child: Text('  ملخص شهري  ',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
-            GetBuilder<HomeController>(builder: (logic) {
-              return logic.homeModel == null ? Center(
-                child: CircularProgressIndicator(),) : Row(
+            GetBuilder<HomeController>( builder: (logic) {
+              return logic.homeModel == null
+                  ? Center(
+                child: CircularProgressIndicator(),
+              )
+                  : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Expanded(
@@ -148,12 +159,15 @@ class HomeScr1 extends StatelessWidget {
                                 radius: 60.0,
                                 lineWidth: 20,
                                 backgroundColor: ColorApp.whiteColor,
-                                percent: logic.homeModel!.home!.attendance! /
+                                percent:
+                                logic.homeModel!.home!.attendance! /
                                     30,
                                 animation: true,
-                                circularStrokeCap: CircularStrokeCap.round,
-                                center: Text(logic.homeModel!.home!.attendance
-                                    .toString(),
+                                circularStrokeCap:
+                                CircularStrokeCap.round,
+                                center: Text(
+                                    logic.homeModel!.home!.attendance
+                                        .toString(),
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: ColorApp.greenColor,
@@ -197,13 +211,13 @@ class HomeScr1 extends StatelessWidget {
                                 radius: 60.0,
                                 lineWidth: 20,
                                 backgroundColor: ColorApp.whiteColor,
-                                percent: logic.homeModel!.home!.absence! / 30,
+                                percent:
+                                logic.homeModel!.home!.absence! / 30,
                                 animation: true,
-                                circularStrokeCap: CircularStrokeCap.round,
+                                circularStrokeCap:
+                                CircularStrokeCap.round,
                                 center: Text(
                                     logic.homeModel!.home!.absence
-
-
                                         .toString(),
                                     style: TextStyle(
                                         fontSize: 20,
@@ -224,6 +238,99 @@ class HomeScr1 extends StatelessWidget {
                     ),
                   )
                 ],
+              );
+            }), Divider(height: 1, thickness: 1,),
+            Container(height: 40,
+              child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                      child: Center(
+                          child: Text(
+                            "الحالة" ,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ))),
+                  Container(
+                    height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
+                  Expanded(
+                      child: Center(
+                          child: Text(
+                            "الشهر",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ))),
+                  Container(
+                    height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
+                  Expanded(
+                      child: Center(
+                          child: Text(
+                            "ايام الحضور"   ,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ))),
+                  Container(
+                    height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
+                  Expanded(
+                      child: Center(
+                          child: Text(
+                            "الراتب",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ))),
+                ],
+              ),
+            )
+            , Divider(height: 1, thickness: 1,),
+            GetBuilder<HomeController>(builder: (logic) {
+              return
+              logic.salariesModel == null
+                  ? Center(
+                child: CircularProgressIndicator(),
+              ):
+              Container(height: 300,
+                child: ListView.builder(
+                  itemCount: logic.salariesModel?.notifications?.length, itemBuilder: (context, pos) {
+                  return     Container(height: 40,
+                    child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            child: Center(
+                                child: Text(
+                                  logic.salariesModel?.notifications?[pos].status??"" ,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 16),
+                                ))),
+                        Container(
+                          height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
+                        Expanded(
+                            child: Center(
+                                child: Text(
+                                  logic.salariesModel?.notifications?[pos].date??"",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 16),
+                                ))),
+                        Container(
+                          height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
+                        Expanded(
+                            child: Center(
+                                child: Text(
+                                  logic.salariesModel?.notifications?[pos].daies??""  ,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 16),
+                                ))),
+                        Container(
+                          height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
+                        Expanded(
+                            child: Center(
+                                child: Text(
+                                  logic.salariesModel?.notifications?[pos].sallerValue??"",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 16),
+                                ))),
+                      ],
+                    ),
+                  );
+                }),
               );
             })
           ],

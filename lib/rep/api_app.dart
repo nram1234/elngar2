@@ -18,6 +18,8 @@ class APIApp {
   static const String postchechoutUrl =baseUrl+"api/checkout";
   static const String allnotificationsUrl =baseUrl+"api/all_notifications?";
 
+   static const String salariesUrl =baseUrl+"api/salaries?";
+
 
 
 }

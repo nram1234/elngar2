@@ -16,6 +16,7 @@ import '../../rep/api/branchs_api.dart';
 import '../../rep/api/chechout_api.dart';
 import '../../rep/api/home_api.dart';
 import '../../rep/api/logout_api.dart';
+import '../../rep/api/salaries_api.dart';
 import '../../rep/api/upload_video_api.dart';
 import '../../rep/api/user_profile_api.dart';
 import '../../rep/json_model/all_audios_model.dart';
@@ -27,6 +28,7 @@ import '../../rep/json_model/chechout_model.dart';
 import '../../rep/json_model/home_model.dart';
 import '../../rep/json_model/login_model.dart';
 import '../../rep/json_model/login_model.dart';
+import '../../rep/json_model/salaries_model.dart';
 import '../../rep/json_model/user_profile_model.dart';
 import '../../utility/all_string_const.dart';
 import '../../utility/storage.dart';
@@ -86,6 +88,7 @@ getHome(){
     homeModel =value as HomeModel;
     print("thissssssssssssssssssssss${homeModel!.home!.branchId}");
     SecureStorage.writeSecureData(key: AllStringConst.branch_id, value: homeModel!.home!.branchId!.toString());
+    SecureStorage.writeBoolData( key: AllStringConst.isHaveBranch,value: homeModel!.home!.loginBranch??false);
 update();
 
   });
@@ -125,6 +128,7 @@ setindexINProfile(int i){
     getAllAudios();
     getAllVideos();
     getUserProfile();
+    getSalaries();
   }
 
     myScr(int index){
@@ -141,10 +145,11 @@ logout()async{
 
  String token=await SecureStorage.readSecureData(AllStringConst.Token)!;
   _logOutAPI.post({"token":token,"language":"ar"}).then((value) {
-    SecureStorage.deleteSecureData(AllStringConst.Token);
-//print(value);
-    Get.offAllNamed("Login");
+
   });
+ SecureStorage.deleteSecureData(AllStringConst.Token);
+
+ Get.offAllNamed("Login");
 }
 getAllHoliday(){
   _allHolidayAPI.data="?token=${SecureStorage.readSecureData(AllStringConst.Token)}";
@@ -284,116 +289,113 @@ getUserAttendanceWithOutLoction( )async{
   //
   double? dest;
   getUserLocAndDestBtwenbranchAndUser()async{
-    final ImagePicker _picker = ImagePicker();
-    final XFile? photo = await _picker.pickImage(source: ImageSource.camera,imageQuality: 40,maxHeight: 200,maxWidth: 200);
-    if(photo!=null){
 
-      getAttendance=true;
-      update();
+if(homeModel!.home!.loginBranch! ){
 
-      Position? position=await   getLoction( );
-
- print("this my loction     ${position?.altitude}");
-
-  if(position!=null){
-    Branches? bestBranch=  branchsModel?.branches?[0];
-     print("element.toJson()=>  ${branchsModel?.branches}");
-    dest=50000;
-     for(int i=0;i< (branchsModel?.branches?.length??0);i++) {
-       print("this id bestBranch ${branchsModel?.branches?[i].id}");
-       if (branchsModel!.branches![i].id==int.parse(SecureStorage.readSecureData(AllStringConst.branch_id)!)) {
-         bestBranch=branchsModel!.branches![i];
-         print("this iss bestBranch ${bestBranch.toJson()}");
-         await getdestance(pos: position!,
-             pranchlat: double.parse(bestBranch!.latitude!),
-             pranchLong: double.parse(bestBranch!.longitude!)).then((value) async {
-           //  print("     ${value<4000} =======${value}========       ${branchsModel!.branches![i].latitude }  = ${branchsModel!.branches![i].longitude }  =====    ${ position.latitude }= ${ position.longitude } ");
+    Position? position=await   getLoction( );
+if(position!=null){
+  await getdestance(pos: position!,
+              pranchlat: double.parse(homeModel!.home!.latBranch!),
+              pranchLong: double.parse(homeModel!.home!.longBranch!)).then((value) async {
+ if(value<15){
+   getAttend();
+ }else{
+   Get.snackbar("خطاء", "برجاء التواجد داخل الفرع");
+ }
+  });
+}else{
+  Get.snackbar("خطاء", "برجاء تشغيل خدمة تحديد الموقع");
+}
 
 
-           if (true) {
-             //  Get.snackbar("", "تم تسجيل الحضور");
 
-             //    branches=branchsModel!.branches![i];
-             getAttendance = true;
-             update();
+}else{
+  getAttend();
+}
 
-             var formData = di.FormData();
-
-
-             formData.files.addAll([
-               MapEntry("img",
-                   await di.MultipartFile.fromFile(photo.path)),
-             ]);
-
-             formData.fields.add(
-                 MapEntry("language", "ar"));
-             // formData.fields.add(
-             //     MapEntry("branch_id",branchsModel!.branches![i].id!.toString()));
-             formData.fields.add(
-                 MapEntry("branch_id", "1"));
-             formData.fields.add(
-                 MapEntry("lat", bestBranch?.latitude.toString() ?? "22"));
-             formData.fields.add(
-                 MapEntry("lang", bestBranch?.longitude.toString() ?? "11"));
-             formData.fields.add(
-                 MapEntry("token",
-                     SecureStorage.readSecureData(AllStringConst.Token)!
-                         .toString()));
-
-
-             await _attendanceAPI.post(formData).then((value) async {
-               print("44444444444444444444444444444object");
-               attendanceModel = value as AttendanceModel;
-
-               await SecureStorage.writeSecureData(key: AllStringConst.id,
-                   value: attendanceModel?.attendances?.id.toString()??1.toString());
-               //  print(attendanceModel?.toJson());
-
-                  Get.snackbar("", "${attendanceModel!.msg! } الفرع${branchsModel!.branches![i]!.name}  ");
-
-               getAttendance = false;
-               update();
-             });
-           }
-           else {
-             getAttendance = false;
-             update();
-             // Get.snackbar("", "تحتاج الي الدخول داخل الفرع اقرب فرع لك هو ${bestBranch?.name}");
-
-               Get.snackbar("", " تواجد بجوار اقرب فرع لك");
-           }
-
-           getAttendance = false;
-           update();
-
-           // if(dest!>value){
-           //  print("--------------------------------------------------------------------");
-           //   dest=value;
-           //   bestBranch=branchsModel!.branches![i];
-           //   print("the   bestBranch is   ${bestBranch!.name}    $dest ");
-           // }
-
-
-         });
-       }
-       // else {
-       //
-       //   Get.snackbar("خطاء", "خطاء برجا غلق التطبيق و الدخول مرة اخري");
-       //   getAttendance = false;
-       //   update();
-       // }
-     }
-
-    }else{
-    getAttendance = false;
-    update();
-    Get.snackbar("خطاء", "يجب تشغيل خدمة تحديد المواقع");
-
-  }
-       // branchsModel!.branches![i].latitude!   //branchsModel!.branches![i].longitude!
-
-     // }
-    }
+ //
+ //
+ //    if(photo!=null){
+ //
+ //      getAttendance=true;
+ //      update();
+ //
+ //      Position? position=await   getLoction( );
+ //
+ // print("this my loction     ${position?.altitude}");
+ //
+ //  if(position!=null){
+ //    Branches? bestBranch=  branchsModel?.branches?[0];
+ //     print("element.toJson()=>  ${branchsModel?.branches}");
+ //    dest=50000;
+ //
+ //    if(SecureStorage.readBoolData(AllStringConst.isHaveBranch)){
+ //
+ //    }else{
+ //
+ //
+ //    }
+ //
+ //
+ //     for(int i=0;i< (branchsModel?.branches?.length??0);i++) {
+ //       print("this id bestBranch ${branchsModel?.branches?[i].id}");
+ //       if (branchsModel!.branches![i].id==int.parse(SecureStorage.readSecureData(AllStringConst.branch_id)!)) {
+ //         bestBranch=branchsModel!.branches![i];
+ //         print("this iss bestBranch ${bestBranch.toJson()}");
+ //         await getdestance(pos: position!,
+ //             pranchlat: double.parse(bestBranch!.latitude!),
+ //             pranchLong: double.parse(bestBranch!.longitude!)).then((value) async {
+ //           //  print("     ${value<4000} =======${value}========       ${branchsModel!.branches![i].latitude }  = ${branchsModel!.branches![i].longitude }  =====    ${ position.latitude }= ${ position.longitude } ");
+ //
+ //
+ //           if (value<15) {
+ //             //  Get.snackbar("", "تم تسجيل الحضور");
+ //
+ //             //    branches=branchsModel!.branches![i];
+ //             getAttendance = true;
+ //             update();
+ //
+ //
+ //           }
+ //           else {
+ //             getAttendance = false;
+ //             update();
+ //             // Get.snackbar("", "تحتاج الي الدخول داخل الفرع اقرب فرع لك هو ${bestBranch?.name}");
+ //
+ //               Get.snackbar("", " برجاء التواجد داخل الفرع");
+ //           }
+ //
+ //           getAttendance = false;
+ //           update();
+ //
+ //           // if(dest!>value){
+ //           //  print("--------------------------------------------------------------------");
+ //           //   dest=value;
+ //           //   bestBranch=branchsModel!.branches![i];
+ //           //   print("the   bestBranch is   ${bestBranch!.name}    $dest ");
+ //           // }
+ //
+ //
+ //         });
+ //       }
+ //       // else {
+ //       //
+ //       //   Get.snackbar("خطاء", "خطاء برجا غلق التطبيق و الدخول مرة اخري");
+ //       //   getAttendance = false;
+ //       //   update();
+ //       // }
+ //     }
+ //
+ //    }else{
+ //    getAttendance = false;
+ //    update();
+ //    Get.snackbar("خطاء", "يجب تشغيل خدمة تحديد المواقع");
+ //
+ //  }
+ //       // branchsModel!.branches![i].latitude!   //branchsModel!.branches![i].longitude!
+ //
+ //     // }
+ //    }
 
 //     branchsModel?.branches?.forEach((element) async{
 // if(position!=null){
@@ -452,7 +454,54 @@ getUserAttendanceWithOutLoction( )async{
    //  update();
 
   }
+getAttend()async{
+  Position? position=await   getLoction( );
+  final ImagePicker _picker = ImagePicker();
+  final XFile? photo = await _picker.pickImage(source: ImageSource.camera,imageQuality: 40,maxHeight: 200,maxWidth: 200);
 
+  var formData = di.FormData();
+if(photo!=null&&position!=null){
+
+  formData.files.addAll([
+    MapEntry("img",
+        await di.MultipartFile.fromFile(photo.path)),
+  ]);
+
+  formData.fields.add(
+      MapEntry("language", "ar"));
+  // formData.fields.add(
+  //     MapEntry("branch_id",branchsModel!.branches![i].id!.toString()));
+  formData.fields.add(
+      MapEntry("branch_id", homeModel!.home!.branchId!.toString()));
+  formData.fields.add(
+      MapEntry("lat", position!.latitude.toString() ?? "22"));
+  formData.fields.add(
+      MapEntry("lang", position!.longitude.toString() ?? "11"));
+  formData.fields.add(
+      MapEntry("token",
+          SecureStorage.readSecureData(AllStringConst.Token)!
+              .toString()));
+
+
+  await _attendanceAPI.post(formData).then((value) async {
+    print("44444444444444444444444444444object");
+    attendanceModel = value as AttendanceModel;
+
+    await SecureStorage.writeSecureData(key: AllStringConst.id,
+        value: attendanceModel?.attendances?.id.toString()??1.toString());
+    //  print(attendanceModel?.toJson());
+    Get.snackbar(" ", attendanceModel?.msg??"");
+  //  Get.snackbar("", "${attendanceModel!.msg! } الفرع${branchsModel!.branches![i]!.name}  ");
+
+    getAttendance = false;
+    update();
+  });
+}else{
+  Get.snackbar("خطاء", "برجاء التاكد من تشغيل تحديد الموقع و اخذ صوره");
+}
+
+
+}
   bool ischechout=false;
   chechout(){
     ischechout=true;
@@ -479,5 +528,17 @@ getUserAttendanceWithOutLoction( )async{
     branchsModel =value as BranchsModel;
     print("branchsModel?.toJson()=>    ${branchsModel?.toJson()}");
   });
+  }
+
+  SalariesModel? salariesModel;
+  getSalaries(){
+    SalariesAPI salariesAPI=SalariesAPI();
+    salariesAPI.data=SecureStorage.readSecureData(AllStringConst.Token)!;
+    salariesAPI.getData().then((value) {
+      salariesModel =value as SalariesModel;
+      //update(["salar"]);
+
+
+    });
   }
 }

@@ -23,16 +23,16 @@ class SecureStorage {
     var readData =   box.read( key);
     return readData;
   }
-  static  Future? writeBoolData(String key, bool value)  async {
+  static  Future? writeBoolData({required String key,required bool value})  async {
 
 
     var writeData = await box.write( key,value);
     return writeData;
   }
-  static bool? readBoolData(String key)   {
+  static bool  readBoolData(String key)   {
 
     var readData =   box.read( key);
-    return readData;
+    return readData??false;
   }
   static  String? readSecureData(String key)   {
 
