@@ -31,7 +31,7 @@ class AttendanceModel extends AbstractJsonResource {
 
 class Attendances {
   int? employeeId;
-  int? branchId;
+  String? branchId;
   String? lat;
   String? lang;
   String? date;

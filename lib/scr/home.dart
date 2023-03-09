@@ -27,6 +27,8 @@ class Home extends GetView<HomeController> {
             items: [
               BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.home), label: ""),
+              BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.list_bullet), label: ""),
             BottomNavigationBarItem(
                 icon: Icon(CupertinoIcons.waveform_path), label: ""),
               BottomNavigationBarItem(

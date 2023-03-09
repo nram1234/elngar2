@@ -5,7 +5,7 @@ class APIApp {
 
 
   static const String loginUrl =baseUrl+"api/login";
-  static const String logoutUrl ="https://safsooofa.com/api/logout";//baseUrl+"api/logout";
+  static const String logoutUrl ="https://decorewood-eg.com/api/logout";//baseUrl+"api/logout";
   static const String all_holidayUrl =baseUrl+"api/all_holiday";
   static const String getAll_audiosyUrl =baseUrl+"api/all_audios?";
   static const String getAll_videosUrl =baseUrl+"api/all_videos?";

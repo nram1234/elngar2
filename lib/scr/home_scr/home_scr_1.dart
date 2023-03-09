@@ -14,6 +14,8 @@ class HomeScr1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var naaa=SecureStorage.readSecureData(AllStringConst.UserName);
+    print("  SecureStorage.readSecureData(AllStringConst.UserName) $naaa");
     Size size = MediaQuery
         .of(context)
         .size;
@@ -239,100 +241,101 @@ class HomeScr1 extends StatelessWidget {
                   )
                 ],
               );
-            }), Divider(height: 1, thickness: 1,),
-            Container(height: 40,
-              child: Row(crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                      child: Center(
-                          child: Text(
-                            "الحالة" ,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ))),
-                  Container(
-                    height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
-                  Expanded(
-                      child: Center(
-                          child: Text(
-                            "الشهر",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ))),
-                  Container(
-                    height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
-                  Expanded(
-                      child: Center(
-                          child: Text(
-                            "ايام الحضور"   ,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ))),
-                  Container(
-                    height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
-                  Expanded(
-                      child: Center(
-                          child: Text(
-                            "الراتب",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ))),
-                ],
-              ),
-            )
-            , Divider(height: 1, thickness: 1,),
-            GetBuilder<HomeController>(builder: (logic) {
-              return
-              logic.salariesModel == null
-                  ? Center(
-                child: CircularProgressIndicator(),
-              ):
-              Container(height: 300,
-                child: ListView.builder(
-                  itemCount: logic.salariesModel?.notifications?.length, itemBuilder: (context, pos) {
-                  return     Container(height: 40,
-                    child: Row(crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                            child: Center(
-                                child: Text(
-                                  logic.salariesModel?.notifications?[pos].status??"" ,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 16),
-                                ))),
-                        Container(
-                          height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
-                        Expanded(
-                            child: Center(
-                                child: Text(
-                                  logic.salariesModel?.notifications?[pos].date??"",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 16),
-                                ))),
-                        Container(
-                          height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
-                        Expanded(
-                            child: Center(
-                                child: Text(
-                                  logic.salariesModel?.notifications?[pos].daies??""  ,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 16),
-                                ))),
-                        Container(
-                          height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
-                        Expanded(
-                            child: Center(
-                                child: Text(
-                                  logic.salariesModel?.notifications?[pos].sallerValue??"",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 16),
-                                ))),
-                      ],
-                    ),
-                  );
-                }),
-              );
-            })
+            }),
+            // Divider(height: 1, thickness: 1,),
+            // Container(height: 40,
+            //   child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Expanded(
+            //           child: Center(
+            //               child: Text(
+            //                 "الحالة" ,
+            //                 style: TextStyle(
+            //                     fontWeight: FontWeight.bold, fontSize: 16),
+            //               ))),
+            //       Container(
+            //         height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
+            //       Expanded(
+            //           child: Center(
+            //               child: Text(
+            //                 "الشهر",
+            //                 style: TextStyle(
+            //                     fontWeight: FontWeight.bold, fontSize: 16),
+            //               ))),
+            //       Container(
+            //         height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
+            //       Expanded(
+            //           child: Center(
+            //               child: Text(
+            //                 "ايام الحضور"   ,
+            //                 style: TextStyle(
+            //                     fontWeight: FontWeight.bold, fontSize: 16),
+            //               ))),
+            //       Container(
+            //         height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
+            //       Expanded(
+            //           child: Center(
+            //               child: Text(
+            //                 "الراتب",
+            //                 style: TextStyle(
+            //                     fontWeight: FontWeight.bold, fontSize: 16),
+            //               ))),
+            //     ],
+            //   ),
+            // )
+            // , Divider(height: 1, thickness: 1,),
+            // GetBuilder<HomeController>(builder: (logic) {
+            //   return
+            //   logic.salariesModel == null
+            //       ? Center(
+            //     child: CircularProgressIndicator(),
+            //   ):
+            //   Container(height: 300,
+            //     child: ListView.builder(
+            //       itemCount: logic.salariesModel?.notifications?.length, itemBuilder: (context, pos) {
+            //       return     Container(height: 40,
+            //         child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Expanded(
+            //                 child: Center(
+            //                     child: Text(
+            //                       logic.salariesModel?.notifications?[pos].status??"" ,
+            //                       style: TextStyle(
+            //                           fontWeight: FontWeight.bold, fontSize: 16),
+            //                     ))),
+            //             Container(
+            //               height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
+            //             Expanded(
+            //                 child: Center(
+            //                     child: Text(
+            //                       logic.salariesModel?.notifications?[pos].date??"",
+            //                       style: TextStyle(
+            //                           fontWeight: FontWeight.bold, fontSize: 16),
+            //                     ))),
+            //             Container(
+            //               height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
+            //             Expanded(
+            //                 child: Center(
+            //                     child: Text(
+            //                       logic.salariesModel?.notifications?[pos].daies??""  ,
+            //                       style: TextStyle(
+            //                           fontWeight: FontWeight.bold, fontSize: 16),
+            //                     ))),
+            //             Container(
+            //               height: 40, width: 1, color: Colors.grey.withOpacity(.5),),
+            //             Expanded(
+            //                 child: Center(
+            //                     child: Text(
+            //                       logic.salariesModel?.notifications?[pos].sallerValue??"",
+            //                       style: TextStyle(
+            //                           fontWeight: FontWeight.bold, fontSize: 16),
+            //                     ))),
+            //           ],
+            //         ),
+            //       );
+            //     }),
+            //   );
+            // })
           ],
         ),
       ),

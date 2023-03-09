@@ -33,6 +33,7 @@ import '../../rep/json_model/user_profile_model.dart';
 import '../../utility/all_string_const.dart';
 import '../../utility/storage.dart';
 import '../../utility/utilitie.dart';
+import '../home_scr/articles.dart';
 import '../home_scr/home_scr_1.dart';
 import '../home_scr/home_scr_2.dart';
 import '../home_scr/home_scr_3.dart';
@@ -60,7 +61,7 @@ class HomeController extends GetxController{
   int indexINProfile=0;
 List<VideoPlayerController>listOfVideoPlayerController=[];
   int index=0;
-  List<Widget>screens=[HomeScr1(),HomeScr2(),HomeScr3(),HomeScr4()];
+  List<Widget>screens=[HomeScr1(),Aticles(),HomeScr2(),HomeScr3(),HomeScr4()];
 Widget? screen;
   Map <String,dynamic>?_logindata;
 
@@ -86,8 +87,8 @@ getHome(){
   _homeAPI.data="token=${SecureStorage.readSecureData(AllStringConst.Token)}";
   _homeAPI.getData().then((value) {
     homeModel =value as HomeModel;
-    print("thissssssssssssssssssssss${homeModel!.home!.branchId}");
-    SecureStorage.writeSecureData(key: AllStringConst.branch_id, value: homeModel!.home!.branchId!.toString());
+    print("thissssssssssssssssssssss${homeModel!.toJson()}");
+    SecureStorage.writeSecureData(key: AllStringConst.branch_id, value: homeModel?.home?.branchId?.toString()??"");
     SecureStorage.writeBoolData( key: AllStringConst.isHaveBranch,value: homeModel!.home!.loginBranch??false);
 update();
 
@@ -292,6 +293,8 @@ getUserAttendanceWithOutLoction( )async{
 
 if(homeModel!.home!.loginBranch! ){
 
+  getAttendance=true;
+  update();
     Position? position=await   getLoction( );
 if(position!=null){
   await getdestance(pos: position!,
@@ -301,10 +304,14 @@ if(position!=null){
    getAttend();
  }else{
    Get.snackbar("خطاء", "برجاء التواجد داخل الفرع");
+   getAttendance=false;
+   update();
  }
   });
 }else{
   Get.snackbar("خطاء", "برجاء تشغيل خدمة تحديد الموقع");
+  getAttendance=false;
+  update();
 }
 
 
@@ -462,6 +469,8 @@ getAttend()async{
   var formData = di.FormData();
 if(photo!=null&&position!=null){
 
+  getAttendance = true;
+  update();
   formData.files.addAll([
     MapEntry("img",
         await di.MultipartFile.fromFile(photo.path)),
@@ -472,7 +481,7 @@ if(photo!=null&&position!=null){
   // formData.fields.add(
   //     MapEntry("branch_id",branchsModel!.branches![i].id!.toString()));
   formData.fields.add(
-      MapEntry("branch_id", homeModel!.home!.branchId!.toString()));
+      MapEntry("branch_id", homeModel?.home?.branchId?.toString()??""));
   formData.fields.add(
       MapEntry("lat", position!.latitude.toString() ?? "22"));
   formData.fields.add(
@@ -490,7 +499,7 @@ if(photo!=null&&position!=null){
     await SecureStorage.writeSecureData(key: AllStringConst.id,
         value: attendanceModel?.attendances?.id.toString()??1.toString());
     //  print(attendanceModel?.toJson());
-    Get.snackbar(" ", attendanceModel?.msg??"");
+    Get.snackbar(" ",attendanceModel?.msg??""  );
   //  Get.snackbar("", "${attendanceModel!.msg! } الفرع${branchsModel!.branches![i]!.name}  ");
 
     getAttendance = false;

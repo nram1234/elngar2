@@ -12,11 +12,13 @@ class SecureStorage {
     var writeData = await box.write( key,value);
     return writeData;
   }
-  static Future? writeSecureDataINT({required String key,required int value})  async {
+  static Future? writeSecureDataINT({required String key,required int? value})  async {
+
+    if(value!=null){
+      await box.write( key,value);
+    }
 
 
-    var writeData = await box.write( key,value);
-    return writeData;
   }
   static  int? readSecureDataINT(String key)   {
 

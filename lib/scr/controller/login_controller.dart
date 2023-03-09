@@ -73,8 +73,8 @@ String? nameValidator  (value) {
 
           await SecureStorage.writeSecureData(key: AllStringConst.jobNum,value: data.user!.jobNum.toString());
 
-          await SecureStorage.writeSecureData(key: AllStringConst.UserName,value: data.user!.name!);
-          await SecureStorage.writeSecureDataINT(key: AllStringConst.type,value: data.user!.type!);
+          await SecureStorage.writeSecureData(key: AllStringConst.UserName,value: data.user?.name??"");
+          await SecureStorage.writeSecureDataINT(key: AllStringConst.type,value: data.user?.type??null);
           await SecureStorage.writeSecureJsonData(
               key:AllStringConst.login ,value: data.toJson());
           Get.offAllNamed("Home");
