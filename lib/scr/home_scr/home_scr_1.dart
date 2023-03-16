@@ -162,14 +162,14 @@ class HomeScr1 extends StatelessWidget {
                                 lineWidth: 20,
                                 backgroundColor: ColorApp.whiteColor,
                                 percent:
-                                logic.homeModel!.home!.attendance! /
+                                (logic.homeModel?.home?.attendance??0) /
                                     30,
                                 animation: true,
                                 circularStrokeCap:
                                 CircularStrokeCap.round,
                                 center: Text(
-                                    logic.homeModel!.home!.attendance
-                                        .toString(),
+                                    logic.homeModel?.home?.attendance
+                                        ?.toString()??"",
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: ColorApp.greenColor,
@@ -214,13 +214,13 @@ class HomeScr1 extends StatelessWidget {
                                 lineWidth: 20,
                                 backgroundColor: ColorApp.whiteColor,
                                 percent:
-                                logic.homeModel!.home!.absence! / 30,
+                               ( logic.homeModel?.home?.absence??0) / 30,
                                 animation: true,
                                 circularStrokeCap:
                                 CircularStrokeCap.round,
                                 center: Text(
-                                    logic.homeModel!.home!.absence
-                                        .toString(),
+                                    logic.homeModel?.home?.absence
+                                        ?.toString()??"",
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: ColorApp.accentColor,

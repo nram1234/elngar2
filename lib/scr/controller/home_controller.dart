@@ -113,6 +113,10 @@ setindexINProfile(int i){
   indexINProfile=i;
   update();
 }
+int ttt=0;
+  fortest(int i){
+ttt=i;
+}
   @override
   void onInit() {
     super.onInit();
@@ -218,7 +222,7 @@ playAudio(String url)async{
   
   uploadideo(File file)async{
   print("upload");
-    var request = http.MultipartRequest('POST', Uri.parse('https://decorewood-eg.com/api/uploadVideo'));
+    var request = http.MultipartRequest('POST', Uri.parse('https://alnajargroup.com/api/uploadVideo'));
     request.fields.addAll({
       'language': 'ar',
       'token':  SecureStorage.readSecureData(AllStringConst.Token)!
@@ -241,7 +245,7 @@ playAudio(String url)async{
 
   uploadAudio(File file)async{
     print("upload ddddddd");
-    var request = http.MultipartRequest('POST', Uri.parse('https://decorewood-eg.com/api/uploadAudio'));
+    var request = http.MultipartRequest('POST', Uri.parse('https://alnajargroup.com/api/uploadAudio'));
     request.fields.addAll({
       'language': 'en',
       'token':   SecureStorage.readSecureData(AllStringConst.Token)!
