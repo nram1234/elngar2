@@ -51,9 +51,11 @@ class Tap2 extends StatelessWidget {
                               item(
                                   val: logic.allHolidayModel?.holiday![pos]
                                               .isApproved ==
-                                          0
+1
                                       ? "موافق"
-                                      : "رفض",
+                                      :  logic.allHolidayModel?.holiday![pos]
+                                      .isApproved ==2?"رفض": logic.allHolidayModel?.holiday![pos]
+                                      .isApproved ==3?"تعديل":"تم الغائها",
                                   titel: "الرد علي طلب الاجازه"),
                             ],
                           )),
