@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:329891622279:android:f1be6f60c6e4f3a152b722",
         "android_client_info": {
-          "package_name": "com.example.elngar"
+          "package_name": "com.nram.elngar"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "329891622279-de2vkqqok7un7qjueaake3muph5bc816.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.elngar",
+            "package_name": "com.nram.elngar",
             "certificate_hash": "e91710c2220e09332783657d7bd99f0e35d63ee1"
           }
         },

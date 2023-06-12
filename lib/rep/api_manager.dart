@@ -25,7 +25,7 @@ abstract class ApiManager {
     await dioSingleton.dio
         .get( apiUrl()  ,queryParameters: data )
         .then((value) {
-          print(value.data["Status"]);
+
       if(value.data["Status"]==false){
 
 
